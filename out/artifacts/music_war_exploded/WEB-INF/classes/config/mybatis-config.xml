@@ -7,8 +7,8 @@
         <setting name="mapUnderscoreToCamelCase" value="true"></setting>
     </settings>
 
-<!--    <mappers>-->
-<!--        <mapper resource="mapper/user-mapper.xml"/>-->
+    <mappers>
+        <mapper resource="mapper/user-mapper.xml"/>
 
-<!--    </mappers>-->
+    </mappers>
 </configuration>
