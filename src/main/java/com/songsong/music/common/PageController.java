@@ -1,9 +1,11 @@
 package com.songsong.music.common;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class PageController {
+
 
     // 메인 페이지 이동
     @GetMapping("/") // /pages/main -> /
@@ -36,5 +38,11 @@ public class PageController {
     @GetMapping("/otherUserFeed")
     public String otherFeed() {
         return "otherUserFeed";
+    }
+
+    // 마이페이지 이동
+    @GetMapping("/pages/mypage")
+    private String mypageUpdate(){
+        return "/mypage";
     }
 }
