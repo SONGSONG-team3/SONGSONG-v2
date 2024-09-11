@@ -28,4 +28,13 @@ public class PageController {
     public String board() {
         return "board";  // board.jsp로 이동
     }
+    @GetMapping("/myFeed")
+    public String userFeed() {
+        return "myFeed";
+    }
+
+    @GetMapping("/otherUserFeed")
+    public String otherFeed() {
+        return "otherUserFeed";
+    }
 }
