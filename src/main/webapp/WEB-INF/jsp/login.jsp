@@ -38,7 +38,9 @@
 
 <div class="container center-content text-center">
     <div class="mb-3">
+        <a class="navbar-brand" href="/">
         <img src="/assets/img/songsong.jpg" alt="logo" width="180" height="100" />
+        </a>
     </div>
 
     <form novalidate>

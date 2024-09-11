@@ -113,7 +113,7 @@
 <!-- 헤더 -->
 <nav class="navbar navbar-expand-lg navbar-light fixed-top">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="/">
             <img src="/assets/img/songsong_color.jpg" alt="logo" />
         </a>
         <div class="collapse navbar-collapse">
@@ -124,13 +124,13 @@
                     <span class="nav-link"><%= userName %>님</span>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/pages/feed">My 피드</a>
+                    <a class="nav-link" href="/pages/myplaylist">My 플레이리스트</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/pages/mypage">마이페이지</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/auth/logout">로그아웃</a>
+                    <a class="nav-link" href="/logout">로그아웃</a>
                 </li>
                 <% } else { %>
                 <!-- 로그인되지 않은 상태 -->

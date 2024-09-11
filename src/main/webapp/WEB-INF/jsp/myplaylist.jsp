@@ -1,9 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<%
+    // 세션에서 로그인된 유저 정보를 확인
+    String userName = (String) session.getAttribute("userName"); // 로그인된 유저 이름
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <title>My피드</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!--바디 부분-->
     <style>
@@ -16,37 +23,14 @@
     <!--nav바-->
     <style>
         .navbar {
-            padding-top: 5px;
-            padding-bottom: 5px;
             margin-bottom: 20px;
             background-color: #43486E;
         }
-        .navbar-nav {
-            display: flex;
-            flex-direction: row;
-            margin: 0;
-            padding: 0;
-            list-style: none;
-        }
-        .navbar-nav .nav-item {
-            margin: 0 10px;
-        }
         .navbar-nav .nav-link {
             color: #fff !important;
-            text-decoration: none;
         }
         .navbar-brand img {
             height: 40px;
-            margin-left: 5px;
-        }
-        .navbar-collapse {
-            display: flex;
-            justify-content: flex-end;
-            flex-grow: 1;
-        }
-        .container-fluid {
-            display: flex;
-            align-items: center;
         }
     </style>
 
@@ -91,6 +75,7 @@
         .main-container{
             width: 80%;
             margin-left: 10%;
+            margin-top: 80px;
         }
     </style>
 
@@ -264,22 +249,19 @@
     <!--nav바-->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="/">
                 <img src="/assets/img/songsong_color.jpg" alt="logo" />
             </a>
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/pages/">사용자님</a>
+                        <span class="nav-link"><%= userName %>님</span>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/pages/">My피드</a>
+                        <a class="nav-link" href="/pages/mypage">마이페이지</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/pages/">마이페이지</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/pages/">로그아웃</a>
+                        <a class="nav-link" href="/logout">로그아웃</a>
                     </li>
                 </ul>
             </div>
