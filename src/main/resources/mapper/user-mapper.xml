@@ -5,4 +5,42 @@
 <mapper namespace="com.songsong.music.user.dao.UserDao">
 
 
+    <!-- 마이페이지-->
+
+    <select id="getUserById" resultType="com.songsong.music.user.dto.UserDto" parameterType="int">
+        SELECT u.user_no, u.user_name, u.user_email, u.user_password, u.user_nickname
+        FROM user u
+        WHERE u.user_no = #{userNo}
+    </select>
+
+    <select id="getUserCategories" resultType="com.songsong.music.user.dto.UserCategoryDto" parameterType="int">
+        SELECT uc.user_no, uc.category_id
+        FROM user_category uc
+        WHERE uc.user_no = #{userNo}
+    </select>
+
+    <update id="updateUserMypage" parameterType="com.songsong.music.user.dto.UserDto">
+        UPDATE user
+        <set>
+            <if test="userPassword != null">
+                user_password = #{userPassword},
+            </if>
+            user_nickname = #{userNickname}
+        </set>
+        WHERE user_no = #{userNo}
+    </update>
+
+    <!-- 해당 User 기존 category 전부 삭제 후 새로 추가-->
+    <delete id="deleteUserCategory"  parameterType="int" >
+        delete from user_category
+        where user_no = #{userNo}
+    </delete>
+
+    <insert id="insertUserCategory"  parameterType="com.songsong.music.user.dto.UserCategoryDto" >
+        insert into user_category (user_no, category_id)
+        values ( #{userNo}, #{categoryId} )
+    </insert>
+
+
+
 </mapper>
