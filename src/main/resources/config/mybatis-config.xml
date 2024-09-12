@@ -9,6 +9,7 @@
 
     <mappers>
         <mapper resource="mapper/user-mapper.xml"/>
+        <mapper resource="mapper/auth-mapper.xml"/>
 <!--        <mapper resource="mapper/category-mapper.xml"/>-->
 <!--        <mapper resource="mapper/like-mapper.xml"/>-->
 <!--        <mapper resource="mapper/music-mapper.xml"/>-->
