@@ -17,6 +17,20 @@ public class UserServiceImpl implements UserService {
     public UserResultDto registerUser(UserSignupRequest userSignupRequest) {
         UserResultDto userResultDto = new UserResultDto();
 
+        // 1. 이메일 중복 체크
+        int emailCount = userDao.checkEmailExists(userSignupRequest.getUserDto().getUserEmail());
+        if (emailCount > 0) {
+            userResultDto.setResult("email_exists");
+            return userResultDto;
+        }
+
+        // 2. 닉네임 중복 체크
+        int nicknameCount = userDao.checkNicknameExists(userSignupRequest.getUserDto().getUserNickname());
+        if (nicknameCount > 0) {
+            userResultDto.setResult("nickname_exists");
+            return userResultDto;
+        }
+
         int newUser = userDao.registerUser(userSignupRequest.getUserDto());
         if(newUser > 0) {
             UserDto userDto = userSignupRequest.getUserDto();

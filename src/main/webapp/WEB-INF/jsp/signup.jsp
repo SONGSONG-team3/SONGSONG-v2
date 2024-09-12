@@ -265,12 +265,24 @@
         console.log(response);
 
         let data = await response.json();
-        if( data.result == "success" ){
-            alertify.alert('Welcome!', '회원가입을 축하합니다.', function(){
-                window.location.href="/pages/login";
-            });
-        }else if( data.result == "fail" ){
-            alert("서버 오류!!");
+
+        switch (data.result) {
+            case "email_exists":
+                alertify.alert('중복 이메일', '이미 사용 중인 이메일입니다.');
+                break;
+            case "nickname_exists":
+                alertify.alert('중복 닉네임', '이미 사용 중인 닉네임입니다.');
+                break;
+            case "success":
+                alertify.alert('Welcome!', '송송🎶 회원가입을 축하합니다.', function(){
+                    window.location.href="/pages/login";
+                });
+                break;
+            case "fail":
+                alert("sorry, server error");
+                break;
+            default:
+                alert("error");
         }
     }
 </script>
