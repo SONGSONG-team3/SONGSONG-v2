@@ -3,10 +3,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%
+    // 세션에서 userDto를 가져옴
     UserDto userDto = (UserDto) session.getAttribute("userDto");
-    List<Integer> userCategoryIds = (List<Integer>) session.getAttribute("userCategoryIds"); // 사용자 카테고리 정보
-    String userName = userDto != null ? userDto.getUserNickname() : "";
-    int userNo = userDto != null ? userDto.getUserNo(): 0;
+
+    // 로그인 상태 확인
+    if (userDto == null) {
+        // 로그인 페이지로 리다이렉트
+        response.sendRedirect("/pages/login");
+        return;
+    }
+
+    // 사용자 정보가 있을 경우
+    String userName = userDto.getUserName();
+    int userNo = userDto.getUserNo();
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -110,7 +119,6 @@
 </head>
 <body>
 <!-- 헤더 -->
-
 <nav class="navbar navbar-expand-lg navbar-light fixed-top">
     <div class="container-fluid">
         <a class="navbar-brand" href="/">
@@ -118,7 +126,7 @@
         </a>
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ms-auto">
-                <% if (userDto  != null) { %>
+                <% if (userDto != null) { %>
                 <!-- 로그인된 상태 -->
                 <li class="nav-item">
                     <span class="nav-link"><%= userName %>님</span>
