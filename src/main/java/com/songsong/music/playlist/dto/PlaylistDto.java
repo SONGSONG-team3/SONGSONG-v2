@@ -8,21 +8,11 @@ public class PlaylistDto {
     private boolean sameUser;
     public PlaylistDto(){};
 
-    public PlaylistDto(int playlistId, int userNo, int musicId, boolean sameUser) {
-        this.playlistId = playlistId;
+    public PlaylistDto( int userNo, int musicId, boolean sameUser) {
         this.userNo = userNo;
         this.musicId = musicId;
         this.sameUser = sameUser;
     }
-
-    public int getPlaylistId() {
-        return playlistId;
-    }
-
-    public void setPlaylistId(int playlistId) {
-        this.playlistId = playlistId;
-    }
-
     public int getUserNo() {
         return userNo;
     }

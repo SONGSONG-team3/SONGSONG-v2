@@ -200,7 +200,7 @@
             return;
         }
         $.ajax({
-            url: "/playlists/" + categoryId,
+            url: "/pages/" + categoryId,
             method: "GET",
             data: {
                 searchCategory: categoryId,

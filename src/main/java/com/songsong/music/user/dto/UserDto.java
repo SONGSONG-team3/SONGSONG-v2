@@ -24,13 +24,6 @@ public class UserDto {
         this.userRegisterDate = userRegisterDate;
         this.userLike = userLike;
     }
-    public int getUserLike(){
-        return userLike;
-    }
-
-    public void setUserLike(int userLike){
-        this.userLike = userLike;
-
     public int getUserNo() {
         return userNo;
     }
