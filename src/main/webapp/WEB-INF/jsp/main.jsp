@@ -2,7 +2,12 @@
          pageEncoding="UTF-8"%>
 <%
     // 세션에서 로그인된 유저 정보를 확인
-    String userName = (String) session.getAttribute("userName"); // 로그인된 유저 이름
+    Integer userNo = (Integer) session.getAttribute("userNo"); // 로그인된 유저 번호
+    // 세션에 값이 없으면 임시로 로그인된 사용자 설정
+    if (userNo == null) {
+        userNo = 1;  // 임시 유저 번호 설정 (예: userNo = 1)
+        session.setAttribute("userNo", userNo);
+    }
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,9 +36,9 @@
             color: black;
             border: none;
             margin: 10px;
-            padding: 20px 40px; /* 버튼 크기를 2배로 키움 */
+            padding: 20px 40px;
             border-radius: 20px;
-            font-size: 1.2rem; /* 텍스트 크기도 확대 */
+            font-size: 1.2rem;
         }
 
         .genre-btn.selected {
@@ -65,20 +70,15 @@
 
         .info-text {
             margin-top: 10px;
-            font-size: 1.1rem;
-        }
-
-        .count-likes {
             font-size: 1rem;
-            color: #666;
         }
 
         /* 카드들을 감싸는 컨테이너 가운데 정렬 */
         .playlist-container {
             display: flex;
             flex-wrap: wrap;
-            justify-content: flex-start; /* 왼쪽 정렬 */
-            gap: 20px; /* 카드 간격 */
+            justify-content: flex-start;
+            gap: 20px;
         }
 
         /* 고정된 카드 크기 설정 */
@@ -118,10 +118,10 @@
         </a>
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ms-auto">
-                <% if (userName != null) { %>
+                <% if (userNo  != null) { %>
                 <!-- 로그인된 상태 -->
                 <li class="nav-item">
-                    <span class="nav-link"><%= userName %>님</span>
+                    <span class="nav-link">유저번호: <%= userNo %></span>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/pages/myplaylist">My 플레이리스트</a>
@@ -151,156 +151,40 @@
 <div class="container button-container text-center">
     <div class="row justify-content-center">
         <div class="col-auto">
-            <button type="button" class="btn genre-btn" onclick="showPlaylist('ballad')">발라드</button>
+            <button type="button" class="btn genre-btn" onclick="showPlaylist('1')">발라드</button>
         </div>
         <div class="col-auto">
-            <button type="button" class="btn genre-btn" onclick="showPlaylist('dance')">댄스</button>
+            <button type="button" class="btn genre-btn" onclick="showPlaylist('2')">힙합</button>
         </div>
         <div class="col-auto">
-            <button type="button" class="btn genre-btn" onclick="showPlaylist('hiphop')">힙합</button>
+            <button type="button" class="btn genre-btn" onclick="showPlaylist('3')">인디</button>
         </div>
         <div class="col-auto">
-            <button type="button" class="btn genre-btn" onclick="showPlaylist('rnd')">R&B</button>
+            <button type="button" class="btn genre-btn" onclick="showPlaylist('4')">락/메탈</button>
         </div>
         <div class="col-auto">
-            <button type="button" class="btn genre-btn" onclick="showPlaylist('band')">밴드</button>
+            <button type="button" class="btn genre-btn" onclick="showPlaylist('5')">트로트</button>
         </div>
         <div class="col-auto">
-            <button type="button" class="btn genre-btn" onclick="showPlaylist('indie')">인디</button>
+            <button type="button" class="btn genre-btn" onclick="showPlaylist('6')">댄스</button>
         </div>
         <div class="col-auto">
-            <button type="button" class="btn genre-btn" onclick="showPlaylist('rock')">락/메탈</button>
+            <button type="button" class="btn genre-btn" onclick="showPlaylist('7')">R&D</button>
         </div>
         <div class="col-auto">
-            <button type="button" class="btn genre-btn" onclick="showPlaylist('trot')">트로트</button>
+            <button type="button" class="btn genre-btn" onclick="showPlaylist('8')">밴드</button>
         </div>
     </div>
 </div>
 
 <!-- 플레이리스트 카드 영역 -->
 <div class="container playlist-container">
-    <!-- 1행에 5개씩 카드 표시, 카드 컨테이너는 가운데 정렬 -->
-    <div class="card-container">
-        <div class="card">
-            <div class="card-body">
-                <img src="user-image.jpg" alt="User Image" />
-                <div class="info-text">닉네임: user123</div>
-                <div class="info-text">카테고리: 발라드</div>
-                <div class="count-likes">곡수: 10, 좋아요: 120</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="card-container">
-        <div class="card">
-            <div class="card-body">
-                <div class="no-image"></div>
-                <div class="info-text">닉네임: user456</div>
-                <div class="info-text">카테고리: 발라드</div>
-                <div class="count-likes">곡수: 8, 좋아요: 90</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="card-container">
-        <div class="card">
-            <div class="card-body">
-                <img src="user-image2.jpg" alt="User Image" />
-                <div class="info-text">닉네임: user789</div>
-                <div class="info-text">카테고리: 발라드</div>
-                <div class="count-likes">곡수: 5, 좋아요: 50</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="card-container">
-        <div class="card">
-            <div class="card-body">
-                <div class="no-image"></div>
-                <div class="info-text">닉네임: user001</div>
-                <div class="info-text">카테고리: 발라드</div>
-                <div class="count-likes">곡수: 12, 좋아요: 200</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="card-container">
-        <div class="card">
-            <div class="card-body">
-                <img src="user-image3.jpg" alt="User Image" />
-                <div class="info-text">닉네임: user002</div>
-                <div class="info-text">카테고리: 발라드</div>
-                <div class="count-likes">곡수: 9, 좋아요: 80</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 다음 줄에 6번째 카드가 표시 -->
-    <div class="card-container">
-        <div class="card">
-            <div class="card-body">
-                <div class="no-image"></div>
-                <div class="info-text">닉네임: user003</div>
-                <div class="info-text">카테고리: 발라드</div>
-                <div class="count-likes">곡수: 3, 좋아요: 40</div>
-            </div>
-        </div>
-    </div>
-    <div class="card-container">
-        <div class="card">
-            <div class="card-body">
-                <div class="no-image"></div>
-                <div class="info-text">닉네임: user003</div>
-                <div class="info-text">카테고리: 발라드</div>
-                <div class="count-likes">곡수: 3, 좋아요: 40</div>
-            </div>
-        </div>
-    </div>
-    <div class="card-container">
-        <div class="card">
-            <div class="card-body">
-                <div class="no-image"></div>
-                <div class="info-text">닉네임: user003</div>
-                <div class="info-text">카테고리: 발라드</div>
-                <div class="count-likes">곡수: 3, 좋아요: 40</div>
-            </div>
-        </div>
-    </div>
-    <div class="card-container">
-        <div class="card">
-            <div class="card-body">
-                <div class="no-image"></div>
-                <div class="info-text">닉네임: user003</div>
-                <div class="info-text">카테고리: 발라드</div>
-                <div class="count-likes">곡수: 3, 좋아요: 40</div>
-            </div>
-        </div>
-    </div>
-    <div class="card-container">
-        <div class="card">
-            <div class="card-body">
-                <div class="no-image"></div>
-                <div class="info-text">닉네임: user003</div>
-                <div class="info-text">카테고리: 발라드</div>
-                <div class="count-likes">곡수: 3, 좋아요: 40</div>
-            </div>
-        </div>
-    </div>
-    <div class="card-container">
-        <div class="card">
-            <div class="card-body">
-                <div class="no-image"></div>
-                <div class="info-text">닉네임: user003</div>
-                <div class="info-text">카테고리: 발라드</div>
-                <div class="count-likes">곡수: 3, 좋아요: 40</div>
-            </div>
-        </div>
-    </div>
 </div>
-
-<!-- 부트스트랩 JS CDN -->
+<!-- 부트스트랩 및 jQuery JS CDN -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
+    // 장르 선택 시 버튼 스타일 변경
     document.querySelectorAll('.genre-btn').forEach(button => {
         button.addEventListener('click', function() {
             document.querySelectorAll('.genre-btn').forEach(btn => btn.classList.remove('selected'));
@@ -308,13 +192,64 @@
         });
     });
 
-    function showPlaylist(category) {
-        var playlists = document.querySelectorAll('.playlist');
-        playlists.forEach(function (playlist) {
-            playlist.classList.remove('active');
+    // 카테고리별 플레이리스트 가져오기 (Ajax 요청)
+    function showPlaylist(categoryId) {
+        console.log("Selected categoryId:", categoryId);  // categoryId가 제대로 전달되는지 확인
+        if (!categoryId || categoryId === 'false') {
+            console.error("Invalid categoryId:", categoryId);
+            return;
+        }
+        $.ajax({
+            url: "/playlists/" + categoryId,
+            method: "GET",
+            data: {
+                searchCategory: categoryId,
+                userNo: <%= userNo %>,
+                page: 0,
+                size: 15
+            },
+            success: function (result) {
+                console.log("AJAX 성공 응답:", result);  // 응답 확인
+                var playlistContainer = document.querySelector('.playlist-container');
+                playlistContainer.innerHTML = '';
+
+
+                if (result.result === "SUCCESS") {
+
+                        result.list.forEach(function (playlistDto) {
+                            var userDto = result.userMap[playlistDto.userNo]; // userMap에서 userNo로 UserDto를 가져옴
+                            var songCount = result.songCountMap[playlistDto.userNo];
+
+                            console.log("PlaylistDto:", playlistDto);  // PlaylistDto 확인
+                            console.log("UserNo:", playlistDto.userNo);  // userNo 확인
+                            console.log("UserMap:", result.userMap);  // userMap 확인
+                            console.log("UserDto:", userDto);  // userDto 확인
+
+                            var cardHtml = '<div class="card-container">';
+                            cardHtml += '<a href="/playlist/detail/' + playlistDto.playlistId + '">';
+                            cardHtml += '<div class="card">';
+                            cardHtml += '<div class="card-body">';
+                            cardHtml += '<img src="' + (userDto.userImage ? userDto.userImage : '/assets/img/noProfile.png') + '" alt="User Image" />';
+                            cardHtml += '<div class="info-text">닉네임: ' + userDto.userNickname + '</div>';
+                            cardHtml += '<div class="info-text">곡 수: ' + songCount  + ' 좋아요: ' + userDto.userLike + '</div>';
+                            cardHtml += '</div>';
+                            cardHtml += '</div>';
+                            cardHtml += '</a>';
+                            cardHtml += '</div>';
+                        playlistContainer.innerHTML += cardHtml;
+                    });
+                } else {
+                    playlistContainer.innerHTML = "<p>플레이리스트를 불러올 수 없습니다.</p>";
+                }
+            },
+            error: function (error) {
+                console.error("플레이리스트 가져오기 오류: ", error);
+                document.querySelector('.playlist-container').innerHTML = "<p>플레이리스트를 가져오는 중 오류가 발생했습니다.</p>";
+            }
         });
-        document.getElementById(category).classList.add('active');
     }
 </script>
+
+
 </body>
 </html>

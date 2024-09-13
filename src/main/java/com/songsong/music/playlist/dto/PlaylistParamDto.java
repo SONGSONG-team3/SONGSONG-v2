@@ -6,19 +6,17 @@ public class PlaylistParamDto {
     // 목록
     private int limit;
     private int offset;
-    private String searchCategory;
+    private int searchCategory;
 
     // 상세
-    private int playlistId;
     private int userNo; // 현재 사용자 userNo
 
     public PlaylistParamDto(){};
 
-    public PlaylistParamDto(int limit, int offset, String searchCategory, int playlistId, int userNo) {
+    public PlaylistParamDto(int limit, int offset, int searchCategory, int userNo) {
         this.limit = limit;
         this.offset = offset;
         this.searchCategory = searchCategory;
-        this.playlistId = playlistId;
         this.userNo = userNo;
     }
 
@@ -38,20 +36,12 @@ public class PlaylistParamDto {
         this.offset = offset;
     }
 
-    public String getSearchCategory() {
+    public int getSearchCategory() {
         return searchCategory;
     }
 
-    public void setSearchCategory(String searchCategory) {
+    public void setSearchCategory(int searchCategory) {
         this.searchCategory = searchCategory;
-    }
-
-    public int getPlaylistId() {
-        return playlistId;
-    }
-
-    public void setPlaylistId(int playlistId) {
-        this.playlistId = playlistId;
     }
 
     public int getUserNo() {
@@ -68,7 +58,6 @@ public class PlaylistParamDto {
                 "limit=" + limit +
                 ", offset=" + offset +
                 ", searchCategory='" + searchCategory + '\'' +
-                ", playlistId=" + playlistId +
                 ", userNo=" + userNo +
                 '}';
     }

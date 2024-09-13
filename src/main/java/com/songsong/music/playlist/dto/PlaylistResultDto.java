@@ -1,6 +1,9 @@
 package com.songsong.music.playlist.dto;
 
+import com.songsong.music.user.dto.UserDto;
+
 import java.util.List;
+import java.util.Map;
 
 public class PlaylistResultDto {
     // 요청 결과
@@ -14,6 +17,11 @@ public class PlaylistResultDto {
 
     // 곡 전체 수
     private int count;
+
+    // 유저 정보를 저장하는 Map (userNo -> UserDto)
+    private Map<Integer, UserDto> userMap;
+
+    private Map<Integer, Integer> songCountMap;
 
     public String getResult() {
         return result;
@@ -47,6 +55,23 @@ public class PlaylistResultDto {
         this.count = count;
     }
 
+    // userMap getter, setter
+    public Map<Integer, UserDto> getUserMap() {
+        return userMap;
+    }
+
+    public void setUserMap(Map<Integer, UserDto> userMap) {
+        this.userMap = userMap;
+    }
+
+    public Map<Integer, Integer> getSongCountMap() {
+        return songCountMap;
+    }
+
+    public void setSongCountMap(Map<Integer, Integer> songCountMap) {
+        this.songCountMap = songCountMap;
+    }
+
     @Override
     public String toString() {
         return "PlaylistResultDto{" +
@@ -54,6 +79,8 @@ public class PlaylistResultDto {
                 ", list=" + list +
                 ", dto=" + dto +
                 ", count=" + count +
+                ", userMap=" + userMap +
                 '}';
     }
+
 }
