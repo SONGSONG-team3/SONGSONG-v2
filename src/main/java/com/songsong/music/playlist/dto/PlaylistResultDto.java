@@ -1,5 +1,6 @@
 package com.songsong.music.playlist.dto;
 
+import com.songsong.music.category.dto.CategoryDto;
 import com.songsong.music.user.dto.UserDto;
 
 import java.util.List;
@@ -22,6 +23,9 @@ public class PlaylistResultDto {
     private Map<Integer, UserDto> userMap;
 
     private Map<Integer, Integer> songCountMap;
+
+    private Map<Integer, List<CategoryDto>> userCategoryMap;
+
 
     public String getResult() {
         return result;
@@ -70,6 +74,14 @@ public class PlaylistResultDto {
 
     public void setSongCountMap(Map<Integer, Integer> songCountMap) {
         this.songCountMap = songCountMap;
+    }
+
+    public Map<Integer, List<CategoryDto>> getUserCategoryMap() {
+        return userCategoryMap;
+    }
+
+    public void setUserCategoryMap(Map<Integer, List<CategoryDto>> userCategoryMap) {
+        this.userCategoryMap = userCategoryMap;
     }
 
     @Override

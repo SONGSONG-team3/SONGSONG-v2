@@ -1,13 +1,12 @@
+<%@ page import="com.songsong.music.user.dto.UserDto" %>
+<%@ page import="java.util.List" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%
-    // 세션에서 로그인된 유저 정보를 확인
-    Integer userNo = (Integer) session.getAttribute("userNo"); // 로그인된 유저 번호
-    // 세션에 값이 없으면 임시로 로그인된 사용자 설정
-    if (userNo == null) {
-        userNo = 1;  // 임시 유저 번호 설정 (예: userNo = 1)
-        session.setAttribute("userNo", userNo);
-    }
+    UserDto userDto = (UserDto) session.getAttribute("userDto");
+    List<Integer> userCategoryIds = (List<Integer>) session.getAttribute("userCategoryIds"); // 사용자 카테고리 정보
+    String userName = userDto != null ? userDto.getUserNickname() : "";
+    int userNo = userDto != null ? userDto.getUserNo(): 0;
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -111,6 +110,7 @@
 </head>
 <body>
 <!-- 헤더 -->
+
 <nav class="navbar navbar-expand-lg navbar-light fixed-top">
     <div class="container-fluid">
         <a class="navbar-brand" href="/">
@@ -118,10 +118,10 @@
         </a>
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ms-auto">
-                <% if (userNo  != null) { %>
+                <% if (userDto  != null) { %>
                 <!-- 로그인된 상태 -->
                 <li class="nav-item">
-                    <span class="nav-link">유저번호: <%= userNo %></span>
+                    <span class="nav-link"><%= userName %>님</span>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/pages/myplaylist">My 플레이리스트</a>
@@ -192,7 +192,7 @@
         });
     });
 
-    // 카테고리별 플레이리스트 가져오기 (Ajax 요청)
+    // 카테고리별 플레이리스트 가져오기
     function showPlaylist(categoryId) {
         console.log("Selected categoryId:", categoryId);  // categoryId가 제대로 전달되는지 확인
         if (!categoryId || categoryId === 'false') {
@@ -209,7 +209,7 @@
                 size: 15
             },
             success: function (result) {
-                console.log("AJAX 성공 응답:", result);  // 응답 확인
+                //console.log("AJAX 성공 응답:", result);  // 응답 확인
                 var playlistContainer = document.querySelector('.playlist-container');
                 playlistContainer.innerHTML = '';
 
@@ -219,6 +219,11 @@
                         result.list.forEach(function (playlistDto) {
                             var userDto = result.userMap[playlistDto.userNo]; // userMap에서 userNo로 UserDto를 가져옴
                             var songCount = result.songCountMap[playlistDto.userNo];
+                            var userCategories = result.userCategoryMap[playlistDto.userNo]; // userNo에 해당하는 카테고리 목록
+                            console.log(result.userCategoryMap);
+                            console.log("나와야하는거:", result.userCategoryMap[playlistDto.userNo]);
+
+                            var categoriesText = userCategories.map(category => category.categoryName).join(', '); // 카테고리 이름 합치기
 
                             console.log("PlaylistDto:", playlistDto);  // PlaylistDto 확인
                             console.log("UserNo:", playlistDto.userNo);  // userNo 확인
@@ -231,6 +236,7 @@
                             cardHtml += '<div class="card-body">';
                             cardHtml += '<img src="' + (userDto.userImage ? userDto.userImage : '/assets/img/noProfile.png') + '" alt="User Image" />';
                             cardHtml += '<div class="info-text">닉네임: ' + userDto.userNickname + '</div>';
+                            cardHtml += '<div class="info-text">카테고리: ' + categoriesText  + '</div>';
                             cardHtml += '<div class="info-text">곡 수: ' + songCount  + ' 좋아요: ' + userDto.userLike + '</div>';
                             cardHtml += '</div>';
                             cardHtml += '</div>';
