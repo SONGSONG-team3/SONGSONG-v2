@@ -107,15 +107,15 @@
                     <h6 >좋아하는 음악 취향을 선택해주세요 💓</h6>
                 </div>
 
-                <div class="mt-1 mb-3">
+                <div class="mt-1 mb-3" id="genreButtons">
                     <button type="button" class="btn genre-btn">발라드</button>
-                    <button type="button" class="btn genre-btn">댄스</button>
                     <button type="button" class="btn genre-btn">힙합</button>
-                    <button type="button" class="btn genre-btn">R&B</button>
-                    <button type="button" class="btn genre-btn">밴드</button>
                     <button type="button" class="btn genre-btn">인디</button>
                     <button type="button" class="btn genre-btn">락/메탈</button>
                     <button type="button" class="btn genre-btn">트로트</button>
+                    <button type="button" class="btn genre-btn">댄스</button>
+                    <button type="button" class="btn genre-btn">R&B</button>
+                    <button type="button" class="btn genre-btn">밴드</button>
                 </div>
 
                 <div>

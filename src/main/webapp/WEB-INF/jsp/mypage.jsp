@@ -72,13 +72,13 @@
 
                     <div class="mt-5" id="genreButtons">
                         <button type="button" class="btn genre-btn" data-category-id="1">발라드</button>
-                        <button type="button" class="btn genre-btn" data-category-id="2">댄스</button>
-                        <button type="button" class="btn genre-btn" data-category-id="3">힙합</button>
-                        <button type="button" class="btn genre-btn" data-category-id="4">R&B</button>
-                        <button type="button" class="btn genre-btn" data-category-id="5">밴드</button>
-                        <button type="button" class="btn genre-btn" data-category-id="6">인디</button>
-                        <button type="button" class="btn genre-btn" data-category-id="7">락/메탈</button>
-                        <button type="button" class="btn genre-btn" data-category-id="8">트로트</button>
+                        <button type="button" class="btn genre-btn" data-category-id="2">힙합</button>
+                        <button type="button" class="btn genre-btn" data-category-id="3">인디</button>
+                        <button type="button" class="btn genre-btn" data-category-id="4">락/메탈</button>
+                        <button type="button" class="btn genre-btn" data-category-id="5">트로트</button>
+                        <button type="button" class="btn genre-btn" data-category-id="6">댄스</button>
+                        <button type="button" class="btn genre-btn" data-category-id="7">R&B</button>
+                        <button type="button" class="btn genre-btn" data-category-id="8">밴드</button>
                     </div>
 
                     <!-- 회원정보 수정 버튼 -->
