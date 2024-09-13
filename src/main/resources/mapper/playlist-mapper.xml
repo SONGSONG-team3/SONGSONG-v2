@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.songsong.music.playlist.dao.PlaylistDao">
-    <!-- 카테고리별 플레이리스트 목록 조회 -->
+
     <select id="selectPlaylistsByCategory">
         SELECT p.user_no, p.music_id
         FROM playlist p
@@ -12,6 +12,7 @@
         WHERE m.category_id = #{searchCategory}
         LIMIT #{offset}, #{limit}
     </select>
+
     <!-- 카테고리별 플레이리스트 수 조회 -->
     <select id="getPlaylistCountByCategory">
         SELECT COUNT(*)
@@ -19,10 +20,22 @@
                  JOIN music m ON p.music_id = m.music_id
         WHERE m.category_id = #{categoryId}
     </select>
+
     <select id="getPlaylistCountByUserNo">
         SELECT COUNT(*)
         FROM playlist p
         WHERE p.user_no = #{userNo}
     </select>
 
+    <!-- 사용자 no로 musicId 조회 -->
+    <select id="selectPlaylistsByUser" parameterType="int" resultType="com.songsong.music.playlist.dto.PlaylistDto">
+        SELECT p.music_id musicId
+        FROM playlist p
+        WHERE p.user_no = #{userNo}
+    </select>
+
+    <!--음악 삭제-->
+    <delete id="deleteMusicFromPlaylist">
+        DELETE FROM playlist WHERE user_no = #{userNo} AND music_id = #{musicId}
+    </delete>
 </mapper>

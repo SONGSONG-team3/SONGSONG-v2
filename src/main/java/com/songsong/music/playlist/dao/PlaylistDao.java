@@ -11,4 +11,7 @@ public interface PlaylistDao {
     List<PlaylistDto> selectPlaylistsByCategory(PlaylistParamDto playlistParamDto);
     int getPlaylistCountByUserNo(int categoryId);
     PlaylistDto selectPlaylistDetail(int playlistId);
+  
+    List<PlaylistDto> selectPlaylistsByUser(int userNo);
+    void deleteMusicFromPlaylist(int userNo, int musicId);
 }

@@ -1,5 +1,6 @@
 package com.songsong.music.playlist.service;
 
+
 import com.songsong.music.playlist.dao.PlaylistDao;
 import com.songsong.music.playlist.dto.PlaylistDto;
 import com.songsong.music.playlist.dto.PlaylistParamDto;
@@ -45,5 +46,14 @@ public class PlaylistServiceImpl implements PlaylistService {
         resultDto.setSongCountMap(songCountMap);  // 노래 수 추가
 
         return resultDto;
+    }
+  
+  @Override
+    public List<PlaylistDto> selectPlaylistsByUser(int userNo) {
+        return playlistDao.selectPlaylistsByUser(userNo);
+    }
+    @Override
+    public void deleteMusicFromPlaylist(int userNo, int musicId) {
+        playlistDao.deleteMusicFromPlaylist(userNo, musicId);
     }
 }

@@ -4,5 +4,20 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.songsong.music.music.dao.MusicDao">
 
+    <!-- 음악 ID로 음악 조회 -->
+<!--    <select id="selectMusicById" parameterType="int" resultType="com.songsong.music.music.dto.MusicDto">-->
+<!--        SELECT music_id musicId, category_id categoryId, music_name musicName, music_artist musicArtist, music_link musicLink-->
+<!--        FROM music-->
+<!--        WHERE music_id = #{musicId}-->
+<!--    </select>-->
+    <!-- 음악이 여러개 일때 유리?하다-->
+    <select id="selectMusicByIds" parameterType="list" resultType="com.songsong.music.music.dto.MusicDto">
+        SELECT music_id musicId, category_id categoryId, music_name musicName, music_artist musicArtist, music_link musicLink
+        FROM music
+        WHERE music_id IN
+        <foreach collection="list" item="musicId" open="(" separator="," close=")">
+            #{musicId}
+        </foreach>
+    </select>
 
 </mapper>
