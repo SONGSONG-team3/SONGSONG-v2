@@ -10,10 +10,11 @@ public class UserDto {
     private String userNickname;
     private String userImage;
     private Date userRegisterDate;
+    private int userLike;
 
     public UserDto (){}
 
-    public UserDto(int userNo, String userName, String userPassword, String userEmail, String userNickname, String userImage, Date userRegisterDate) {
+    public UserDto(int userNo, String userName, String userPassword, String userEmail, String userNickname, String userImage, Date userRegisterDate, int userLike) {
         this.userNo = userNo;
         this.userName = userName;
         this.userPassword = userPassword;
@@ -21,6 +22,15 @@ public class UserDto {
         this.userNickname = userNickname;
         this.userImage = userImage;
         this.userRegisterDate = userRegisterDate;
+        this.userLike = userLike;
+    }
+
+    public int getUserLike(){
+        return userLike;
+    }
+
+    public void setUserLike(int userLike){
+        this.userLike = userLike;
     }
 
     public int getUserNo() {

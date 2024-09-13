@@ -14,4 +14,9 @@ public interface UserService {
   
     UserResultDto registerUser(UserSignupRequest userSignupRequest);
 
+    UserDto selectUserById(int userNo);
+    int getSongCountByUser(int userNo);
+    int getUserLikeCount(int userNo);
+    void incrementUserLike(int userNo);
+    void decrementUserLike(int userNo);
 }

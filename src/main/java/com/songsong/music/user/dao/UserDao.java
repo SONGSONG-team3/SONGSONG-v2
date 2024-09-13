@@ -25,4 +25,9 @@ public interface UserDao {
     int checkNicknameExists(String nickname);
 
 
+    UserDto selectUserById(int userNo);
+    int getSongCountByUser(int userNo);
+    int getUserLikeCount(int userNo);
+    void incrementUserLike(int userNo);
+    void decrementUserLike(int userNo);
 }

@@ -131,4 +131,28 @@ public class UserServiceImpl implements UserService {
         return userResultDto;
     }
 
+    @Override
+    public UserDto selectUserById(int userNo) {
+        return userDao.selectUserById(userNo);
+    }
+
+    @Override
+    public int getSongCountByUser(int userNo) {
+        return userDao.getSongCountByUser(userNo);
+    }
+
+    @Override
+    public int getUserLikeCount(int userNo) {
+        return userDao.getUserLikeCount(userNo);
+    }
+
+    @Override
+    public void incrementUserLike(int userNo) {
+        userDao.incrementUserLike(userNo);
+    }
+
+    @Override
+    public void decrementUserLike(int userNo) {
+        userDao.decrementUserLike(userNo);
+    }
 }

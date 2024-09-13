@@ -1,15 +1,17 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
+<%@ page import="com.songsong.music.music.dto.MusicDto" %>
+<% UserDto userDto = (UserDto) request.getAttribute("userDto"); %>
+<%@ page import="java.util.Map" %>
+<%@ page import="com.songsong.music.user.dto.UserDto" %>
 <%
     // 세션에서 로그인된 유저 정보를 확인
     String userName = (String) session.getAttribute("userName"); // 로그인된 유저 이름
 %>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>My피드</title>
+    <title>My 피드</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!--바디 부분-->
@@ -67,8 +69,6 @@
         .profile-details p {
             margin: 5px 0;
         }
-
-
     </style>
 
     <style>
@@ -246,123 +246,163 @@
 </head>
 
 <body>
-    <!--nav바-->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/">
-                <img src="/assets/img/songsong_color.jpg" alt="logo" />
-            </a>
-            <div class="collapse navbar-collapse">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <span class="nav-link"><%= userName %>님</span>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/pages/mypage">마이페이지</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/logout">로그아웃</a>
-                    </li>
-                </ul>
-            </div>
+<!--nav바-->
+<nav class="navbar navbar-expand-lg navbar-light fixed-top">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">
+            <img src="/assets/img/songsong_color.jpg" alt="logo" />
+        </a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <span class="nav-link">${userDto.userNickname}님</span>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/pages/mypage">마이페이지</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">로그아웃</a>
+                </li>
+            </ul>
         </div>
-    </nav>
-
-    <div class="main-container">
-        <!--프로필-->
-        <div class="profile-container">
-            <div class="profile-info">
-                <img src="assets/img/noProfile.png" class="profile-icon">
-                <div class="profile-details">
-                    <h2>이름</h2>
-                    <p>곡 수:</p>
-                    <p>좋아요 수:</p>
-                    <p>카테고리:</p>
-                </div>
-            </div>
-        </div>
-
-        <hr>
-
-        <!--플레이리스트-->
-        <table class="playlist-table">
-            <thead>
-            <tr>
-                <th>곡 제목</th>
-                <th>가수</th>
-                <th>링크</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>곡 제목 1</td>
-                <td>가수 1</td>
-                <td><a href="링크1" target="_blank">링크</a></td>
-                <td><button class="action-button">삭제</button></td>
-            </tr>
-            <tr>
-                <td>곡 제목 2</td>
-                <td>가수 2</td>
-                <td><a href="링크2" target="_blank">링크</a></td>
-                <td><button class="action-button">삭제</button></td>
-            </tr>
-            <!-- 추가 곡들 -->
-            </tbody>
-
-        </table>
-
-        <!-- + 버튼 및 폼 -->
-        <div class="add-song-container">
-            <div class="add-song-button-container">
-                <button class="add-song-button" onclick="toggleForm()">+</button>
-            </div>
-            <div class="add-song-form" id="addSongForm">
-                <h3>노래 추가</h3>
-                <form id="songForm">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <input type="text" id="songTitle" name="songTitle" placeholder="곡 제목을 입력하세요" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" id="artist" name="artist" placeholder="가수를 입력하세요" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="url" id="songLink" name="songLink" placeholder="곡 링크를 입력하세요" required>
-                        </div>
-                    </div>
-                    <div class="form-actions">
-                        <button type="submit">추가</button>
-                        <button type="button" onclick="toggleForm()">취소</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
     </div>
-</body>
+</nav>
+
+<div class="main-container">
+    <!--프로필-->
+    <div class="profile-container">
+        <div class="profile-info">
+            <img src="/assets/img/goomba.jpg" class="profile-icon" alt="Profile Image">
+            <div class="profile-details">
+                <h2>${userDto.userNickname}</h2>
+                <p>곡 수: <span>${songCount}</span></p>
+                <p>좋아요 수: <span>${likeCount}</span></p>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <!--플레이리스트-->
+    <table class="playlist-table">
+        <thead>
+        <tr>
+            <th>곡 제목</th>
+            <th>가수</th>
+            <th>링크</th>
+            <th>삭제</th>
+        </tr>
+        </thead>
+        <tbody>
+        <%
+            Map<Integer, MusicDto> musicMap = (Map<Integer, MusicDto>) request.getAttribute("musicInfo");
+            if (musicMap != null) {
+                for (Map.Entry<Integer, MusicDto> entry : musicMap.entrySet()) {
+                    MusicDto music = entry.getValue();
+        %>
+        <tr>
+            <td><%= music.getMusicName() %></td>
+            <td><%= music.getMusicArtist() %></td>
+            <td><a href="<%= music.getMusicLink() %>">링크</a></td>
+            <td><button class="action-button" data-music-id="<%= music.getMusicId() %>" data-user-no="<%= userDto.getUserNo() %>">삭제</button></td>
+        </tr>
+        <%
+            }
+        }
+        %>
+        </tbody>
+    </table>
+
+    <!-- + 버튼 및 폼 -->
+    <div class="add-song-container">
+        <div class="add-song-button-container">
+            <button class="add-song-button" onclick="toggleForm()">+</button>
+        </div>
+        <div class="add-song-form" id="addSongForm">
+            <h3>노래 추가</h3>
+            <form id="songForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <input type="text" id="songTitle" name="songTitle" placeholder="곡 제목을 입력하세요" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="artist" name="artist" placeholder="가수를 입력하세요" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="url" id="songLink" name="songLink" placeholder="곡 링크를 입력하세요" required>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="submit">추가</button>
+                    <button type="button" onclick="toggleForm()">취소</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
     <!--추가 버튼 스크립트-->
     <script>
-    function toggleForm() {
-        var form = document.getElementById("addSongForm");
-        if (form.style.display === "none" || form.style.display === "") {
-            form.style.display = "block";
-        } else {
-            form.style.display = "none";
+        function toggleForm() {
+            var form = document.getElementById("addSongForm");
+            if (form.style.display === "none" || form.style.display === "") {
+                form.style.display = "block";
+            } else {
+                form.style.display = "none";
+            }
         }
-    }
 
-    // 폼 제출 시 처리
-    document.getElementById("songForm").addEventListener("submit", function(event) {
-        event.preventDefault(); // 기본 제출 동작 방지
+        // 폼 제출 시 처리
+        document.getElementById("songForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // 기본 제출 동작 방지
 
-        var title = document.getElementById("songTitle").value;
-        var artist = document.getElementById("artist").value;
-        var link = document.getElementById("songLink").value;
+            var title = document.getElementById("songTitle").value;
+            var artist = document.getElementById("artist").value;
+            var link = document.getElementById("songLink").value;
 
-        document.getElementById("addSongForm").style.display = "none";
-        document.getElementById("songForm").reset();
+            document.getElementById("addSongForm").style.display = "none";
+            document.getElementById("songForm").reset();
+        });
+
+    </script>
+
+<!--삭제버튼 동작-->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.action-button').forEach(function(button) {
+            button.addEventListener('click', function() {
+                var userNo = this.getAttribute('data-user-no');
+                var musicId = this.getAttribute('data-music-id');
+
+                // 사용자에게 삭제 확인 요청
+                if (confirm('정말로 이 음악을 삭제하시겠습니까?')) {
+                    fetch('/pages/deleteMusic', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: new URLSearchParams({
+                            userNo: userNo,
+                            musicId: musicId
+                        })
+                    })
+                        .then(response => response.text())
+                        .then(result => {
+                            if (result === '삭제 성공') {
+                                alert('삭제되었습니다.');
+                                location.reload(); // 페이지 새로고침
+                            } else {
+                                alert('삭제에 실패했습니다.');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('삭제 요청 중 오류 발생:', error);
+                        });
+                }
+            });
+        });
     });
-
 </script>
+</body>
 </html>

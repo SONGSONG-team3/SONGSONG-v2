@@ -63,5 +63,38 @@
     </insert>
 
 
+    <!-- 사용자 정보 가져오기 -->
+    <select id="selectUserById" resultType="com.songsong.music.user.dto.UserDto">
+        SELECT user_no userNo, user_nickname userNickname, user_image userImage, user_like userLike
+        FROM user
+        WHERE user_no = #{userNo}
+    </select>
+
+    <!-- 사용자의 곡 수 가져오기 -->
+    <select id="getSongCountByUser" resultType="int">
+        SELECT COUNT(*) FROM playlist WHERE user_no = #{userNo}
+    </select>
+
+    <!-- 사용자의 좋아요 수 가져오기(지금까지 반영된 좋아요) -->
+    <select id="getUserLikeCount" parameterType="int" resultType="int">
+        SELECT user_like
+        FROM user
+        WHERE user_no = #{userNo}
+    </select>
+
+    <!-- 사용자 좋아요 수 증가 -->
+    <update id="incrementUserLike" parameterType="int">
+        UPDATE user
+        SET user_like = user_like + 1
+        WHERE user_no = #{userNo}
+    </update>
+
+    <!-- 사용자 좋아요 수 감소 -->
+    <update id="decrementUserLike" parameterType="int">
+        UPDATE user
+        SET user_like = user_like - 1
+        WHERE user_no = #{userNo}
+    </update>
+
 
 </mapper>

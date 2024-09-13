@@ -4,5 +4,16 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.songsong.music.playlist.dao.PlaylistDao">
 
+    <!-- 사용자 no로 musicId 조회 -->
+    <select id="selectPlaylistsByUser" parameterType="int" resultType="com.songsong.music.playlist.dto.PlaylistDto">
+        SELECT p.music_id musicId
+        FROM playlist p
+        WHERE p.user_no = #{userNo}
+    </select>
+
+    <!--음악 삭제-->
+    <delete id="deleteMusicFromPlaylist">
+        DELETE FROM playlist WHERE user_no = #{userNo} AND music_id = #{musicId}
+    </delete>
 
 </mapper>

@@ -12,7 +12,7 @@
         <mapper resource="mapper/auth-mapper.xml"/>
 <!--        <mapper resource="mapper/category-mapper.xml"/>-->
 <!--        <mapper resource="mapper/like-mapper.xml"/>-->
-<!--        <mapper resource="mapper/music-mapper.xml"/>-->
-<!--        <mapper resource="mapper/playlist-mapper.xml"/>-->
+        <mapper resource="mapper/music-mapper.xml"/>
+        <mapper resource="mapper/playlist-mapper.xml"/>
     </mappers>
 </configuration>
