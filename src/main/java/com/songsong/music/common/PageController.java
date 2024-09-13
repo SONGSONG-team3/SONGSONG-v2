@@ -36,10 +36,10 @@ public class PageController {
     }
 
 
-    @GetMapping("/pages/myplaylist")
-    public String myPlaylist() {
-        return "/myplaylist";
-    }
+//    @GetMapping("/pages/myplaylist")
+//    public String myPlaylist() {
+//        return "/myplaylist";
+//    }
 
     @GetMapping("/pages/otherplaylist")
     public String otherPlaylist() {

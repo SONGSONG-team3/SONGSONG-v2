@@ -12,4 +12,6 @@ public interface PlaylistService {
   
   List<PlaylistDto> selectPlaylistsByUser(int userNo);
     void deleteMusicFromPlaylist(int userNo, int musicId);
+    void addSongToPlaylist(PlaylistDto playlistDto);
+
 }

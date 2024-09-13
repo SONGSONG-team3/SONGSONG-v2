@@ -1,5 +1,5 @@
 <%@ page import="com.songsong.music.music.dto.MusicDto" %>
-<% UserDto userDto = (UserDto) request.getAttribute("userDto"); %>
+<% UserDto userDto = (UserDto) session.getAttribute("userDto"); %>
 <%@ page import="java.util.Map" %>
 <%@ page import="com.songsong.music.user.dto.UserDto" %>
 <%
@@ -255,7 +255,7 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <span class="nav-link">${userDto.userNickname}님</span>
+                    <span class="nav-link">${userName}님</span>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/pages/mypage">마이페이지</a>
@@ -318,7 +318,8 @@
         <div class="add-song-button-container">
             <button class="add-song-button" onclick="toggleForm()">+</button>
         </div>
-        <div class="add-song-form" id="addSongForm">
+
+        <div class="add-song-form" id="addSongForm" style="display: none;">
             <h3>노래 추가</h3>
             <form id="songForm">
                 <div class="form-row">
@@ -331,6 +332,8 @@
                     <div class="form-group">
                         <input type="url" id="songLink" name="songLink" placeholder="곡 링크를 입력하세요" required>
                     </div>
+                    <!-- hidden input for user_no -->
+                    <input type="hidden" id="userNo" name="userNo" value="${userDto.userNo}">
                 </div>
                 <div class="form-actions">
                     <button type="submit">추가</button>
@@ -339,10 +342,9 @@
             </form>
         </div>
     </div>
-
 </div>
 
-    <!--추가 버튼 스크립트-->
+    <!-- 추가 버튼 스크립트 -->
     <script>
         function toggleForm() {
             var form = document.getElementById("addSongForm");
@@ -353,56 +355,80 @@
             }
         }
 
-        // 폼 제출 시 처리
         document.getElementById("songForm").addEventListener("submit", function(event) {
             event.preventDefault(); // 기본 제출 동작 방지
 
-            var title = document.getElementById("songTitle").value;
-            var artist = document.getElementById("artist").value;
-            var link = document.getElementById("songLink").value;
+            let title = document.getElementById("songTitle").value;
+            let artist = document.getElementById("artist").value;
+            let link = document.getElementById("songLink").value;
+            let userNo = document.getElementById("userNo").value;
 
-            document.getElementById("addSongForm").style.display = "none";
-            document.getElementById("songForm").reset();
+            fetch('/pages/addSong', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    musicName: title,
+                    musicArtist: artist,
+                    musicLink: link,
+                    userNo: userNo
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('노래가 추가되었습니다.');
+                        window.location.reload(); // 노래가 추가된 후 페이지 새로고침
+                    } else {
+                        alert('노래 추가에 실패했습니다.');
+                    }
+                    document.getElementById("addSongForm").style.display = "none";
+                    document.getElementById("songForm").reset();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('서버 오류');
+                });
         });
-
     </script>
 
-<!--삭제버튼 동작-->
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.action-button').forEach(function(button) {
-            button.addEventListener('click', function() {
-                var userNo = this.getAttribute('data-user-no');
-                var musicId = this.getAttribute('data-music-id');
+    <!--삭제버튼 동작-->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.action-button').forEach(function(button) {
+                button.addEventListener('click', function() {
+                    var userNo = this.getAttribute('data-user-no');
+                    var musicId = this.getAttribute('data-music-id');
 
-                // 사용자에게 삭제 확인 요청
-                if (confirm('정말로 이 음악을 삭제하시겠습니까?')) {
-                    fetch('/pages/deleteMusic', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded'
-                        },
-                        body: new URLSearchParams({
-                            userNo: userNo,
-                            musicId: musicId
+                    // 사용자에게 삭제 확인 요청
+                    if (confirm('정말로 이 음악을 삭제하시겠습니까?')) {
+                        fetch('/pages/deleteMusic', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded'
+                            },
+                            body: new URLSearchParams({
+                                userNo: userNo,
+                                musicId: musicId
+                            })
                         })
-                    })
-                        .then(response => response.text())
-                        .then(result => {
-                            if (result === '삭제 성공') {
-                                alert('삭제되었습니다.');
-                                location.reload(); // 페이지 새로고침
-                            } else {
-                                alert('삭제에 실패했습니다.');
-                            }
-                        })
-                        .catch(error => {
-                            console.error('삭제 요청 중 오류 발생:', error);
-                        });
-                }
+                            .then(response => response.text())
+                            .then(result => {
+                                if (result === '삭제 성공') {
+                                    alert('삭제되었습니다.');
+                                    location.reload(); // 페이지 새로고침
+                                } else {
+                                    alert('삭제에 실패했습니다.');
+                                }
+                            })
+                            .catch(error => {
+                                console.error('삭제 요청 중 오류 발생:', error);
+                            });
+                    }
+                });
             });
         });
-    });
-</script>
+    </script>
 </body>
 </html>

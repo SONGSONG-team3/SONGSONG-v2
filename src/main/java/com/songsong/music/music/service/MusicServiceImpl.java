@@ -10,8 +10,11 @@ import java.util.List;
 @Service
 public class MusicServiceImpl implements MusicService {
 
-    @Autowired
-    private MusicDao musicDao;
+    private final MusicDao musicDao;
+
+    public MusicServiceImpl(MusicDao musicDao) {
+        this.musicDao = musicDao;
+    }
 
 //    @Override
 //    public MusicDto selectMusicById(int musicId) {
@@ -21,5 +24,13 @@ public class MusicServiceImpl implements MusicService {
     @Override
     public List<MusicDto> selectMusicByIds(List<Integer> musicIds) {
         return musicDao.selectMusicByIds(musicIds);
+    }
+
+    @Override
+    public int addSong(MusicDto musicDto) {
+        // 음악 추가
+        musicDao.addSong(musicDto);
+        // 추가된 음악 ID를 반환
+        return musicDto.getMusicId();
     }
 }
