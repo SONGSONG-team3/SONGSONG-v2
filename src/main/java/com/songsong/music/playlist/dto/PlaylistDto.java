@@ -3,11 +3,9 @@ package com.songsong.music.playlist.dto;
 import java.time.LocalDateTime;
 
 public class PlaylistDto {
-    private int playlistId;
     private int userNo;
     private int musicId;
     private boolean sameUser;
-
     public PlaylistDto(){};
 
     public PlaylistDto(int playlistId, int userNo, int musicId, boolean sameUser) {
@@ -36,7 +34,6 @@ public class PlaylistDto {
     public int getMusicId() {
         return musicId;
     }
-
     public void setMusicId(int musicId) {
         this.musicId = musicId;
     }
@@ -48,11 +45,9 @@ public class PlaylistDto {
     public void setSameUser(boolean sameUser) {
         this.sameUser = sameUser;
     }
-
     @Override
     public String toString() {
         return "PlaylistDto{" +
-                "playlistId=" + playlistId +
                 ", userNo=" + userNo +
                 ", musicId=" + musicId +
                 ", sameUser=" + sameUser +

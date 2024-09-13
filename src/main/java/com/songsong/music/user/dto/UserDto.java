@@ -24,14 +24,12 @@ public class UserDto {
         this.userRegisterDate = userRegisterDate;
         this.userLike = userLike;
     }
-
     public int getUserLike(){
         return userLike;
     }
 
     public void setUserLike(int userLike){
         this.userLike = userLike;
-    }
 
     public int getUserNo() {
         return userNo;
@@ -89,6 +87,14 @@ public class UserDto {
         this.userRegisterDate = userRegisterDate;
     }
 
+    public int getUserLike() {
+        return userLike;
+    }
+
+    public void setUserLike(int userLike) {
+        this.userLike = userLike;
+    }
+
     @Override
     public String toString() {
         return "UserDto{" +
@@ -98,7 +104,8 @@ public class UserDto {
                 ", userEmail='" + userEmail + '\'' +
                 ", userNickname='" + userNickname + '\'' +
                 ", userImage='" + userImage + '\'' +
-                ", userRegisterDate=" + userRegisterDate +
+                ", userRegisterDate=" + userRegisterDate + '\''+
+                ", userLike=" + userLike +
                 '}';
     }
 }

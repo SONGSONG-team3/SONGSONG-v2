@@ -96,5 +96,9 @@
         WHERE user_no = #{userNo}
     </update>
 
-
+    <select id="selectUserNicknameByUserNo">
+        SELECT user_nickname
+        FROM user
+        WHERE user_no = #{userNo}
+    </select>
 </mapper>

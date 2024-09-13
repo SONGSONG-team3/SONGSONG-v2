@@ -1,17 +1,27 @@
 package com.songsong.music.common;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class PageController {
 
+    // 임시 세션 설정
+    @GetMapping("/")
+    public String mainPage(HttpSession session) {
+        // 임시 사용자 정보 설정
+        session.setAttribute("userName", "TestUser");  // 세션에 사용자 이름 추가
+        session.setAttribute("userNo", 1);             // 세션에 사용자 번호 추가
 
-    // 메인 페이지 이동
-    @GetMapping("/") // /pages/main -> /
-    public String main() {
-        return "/main";  // main.jsp로 이동
+        return "main";  // main.jsp로 이동
     }
+
+//    // 메인 페이지 이동
+//    @GetMapping("/") // /pages/main -> /
+//    public String main() {
+//        return "/main";  // main.jsp로 이동
+//    }
 
     // 회원가입 페이지 이동
     @GetMapping("/pages/signup")
