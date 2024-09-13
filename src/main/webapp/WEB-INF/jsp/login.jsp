@@ -57,5 +57,47 @@
     </div>
 </div>
 
+<script>
+    window.onload = function () {
+        document.querySelector("#userEmail").focus();
+
+        document.querySelector("#btnLogin").onclick = function() {
+            if(validate()) {
+                login();
+            }
+        };
+    }
+
+    function validate() {
+        if( document.querySelector("#userEmail").value.length > 0 && document.querySelector("#userPassword").value.length > 0 ) return true;
+        return false;
+    }
+    async function login() {
+
+        var userEmail = document.querySelector("#userEmail").value;
+        var userPassword = document.querySelector("#userPassword").value;
+
+        let urlParams = new URLSearchParams({
+            userEmail: userEmail,
+            userPassword: userPassword,
+        });
+
+        let fetchOptions = {
+            method: "POST",
+            body: urlParams,
+        }
+
+        let response = await fetch("/auth/login", fetchOptions);
+        let data = await response.json();
+
+        if( data.result == "success" ){
+            window.location.href="/";
+        }else if( data.result == "fail" ){
+            alert("이메일 또는 비밀번호가 올바르지 않습니다.");
+        }
+    }
+
+</script>
+
 </body>
 </html>

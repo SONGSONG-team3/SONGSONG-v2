@@ -2,8 +2,29 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.songsong.music.user.dao.UserDao">
 
+<mapper namespace="com.songsong.music.user.dao.UserDao">
+    <insert id="registerUser" parameterType="com.songsong.music.user.dto.UserDto" useGeneratedKeys="true" keyProperty="userNo">
+        INSERT INTO user (user_name, user_password, user_email, user_nickname, user_image, user_register_date)
+        VALUES (#{userName}, #{userPassword}, #{userEmail}, #{userNickname}, #{userImage}, now())
+    </insert>
+
+    <insert id="insertUserCategories" parameterType="com.songsong.music.user.dto.UserSignupRequest">
+        INSERT INTO user_category (user_no, category_id)
+        VALUES
+        <foreach collection="categories" item="category" separator=",">
+            (#{userDto.userNo}, #{category})
+        </foreach>
+    </insert>
+
+    <!-- 회원가입시 이메일, 닉네임 중복 체크 -->
+    <select id="checkEmailExists" parameterType="String" resultType="int">
+        SELECT COUNT(*) FROM user WHERE user_email = #{email}
+    </select>
+
+    <select id="checkNicknameExists" parameterType="String" resultType="int">
+        SELECT COUNT(*) FROM user WHERE user_nickname = #{nickname}
+    </select>
 
     <!-- 마이페이지-->
 

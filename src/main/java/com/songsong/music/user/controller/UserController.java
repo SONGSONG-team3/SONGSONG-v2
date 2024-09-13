@@ -2,10 +2,14 @@ package com.songsong.music.user.controller;
 
 import com.songsong.music.user.dto.UserDto;
 import com.songsong.music.user.dto.UserResultDto;
+import com.songsong.music.user.dto.UserResultDto;
+import com.songsong.music.user.dto.UserSignupRequest;
 import com.songsong.music.user.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -17,7 +21,6 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
-
 
     // 마이페이지
     @GetMapping("/pages/mypage/detail")
@@ -61,8 +64,11 @@ public class UserController {
 
 
 
-
-
+    @PostMapping(value="/signup")
+    @ResponseBody
+    public UserResultDto register(@RequestBody UserSignupRequest request){
+        return userService.registerUser(request);
+    }
 
 
 }
