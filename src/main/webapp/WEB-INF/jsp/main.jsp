@@ -87,6 +87,7 @@
             flex-wrap: wrap;
             justify-content: flex-start;
             gap: 20px;
+            margin-top: 20px;
         }
 
         /* 고정된 카드 크기 설정 */
@@ -105,6 +106,11 @@
             max-width: calc(100% - 100px);
             text-align: center;
 
+        }
+
+        .pagination {
+            justify-content: center;
+            margin-top: 20px;
         }
 
         /* 플레이리스트 스타일 */
@@ -186,12 +192,21 @@
 </div>
 
 <!-- 플레이리스트 카드 영역 -->
-<div class="container playlist-container">
-</div>
+<div class="container playlist-container"></div>
+
+<!-- 페이지네이션 영역 -->
+<nav>
+    <ul class="pagination"></ul>
+</nav>
 <!-- 부트스트랩 및 jQuery JS CDN -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
+    // 페이지네이션 변수 설정
+    var currentCategory = 1;
+    var currentPage = 0;
+    var totalPages = 0;
+
     // 장르 선택 시 버튼 스타일 변경
     document.querySelectorAll('.genre-btn').forEach(button => {
         button.addEventListener('click', function() {
@@ -201,19 +216,23 @@
     });
 
     // 카테고리별 플레이리스트 가져오기
-    function showPlaylist(categoryId) {
-        console.log("Selected categoryId:", categoryId);  // categoryId가 제대로 전달되는지 확인
-        if (!categoryId || categoryId === 'false') {
-            console.error("Invalid categoryId:", categoryId);
-            return;
-        }
+    function showPlaylist(categoryId, page = 0) {
+        // console.log("Selected categoryId:", categoryId);  // categoryId가 제대로 전달되는지 확인
+        // if (!categoryId || categoryId === 'false') {
+        //     console.error("Invalid categoryId:", categoryId);
+        //     return;
+        // }
+
+        currentCategory = categoryId;
+        currentPage = page;
+
         $.ajax({
             url: "/pages/" + categoryId,
             method: "GET",
             data: {
                 searchCategory: categoryId,
                 userNo: <%= userNo %>,
-                page: 0,
+                page: page,
                 size: 15
             },
             success: function (result) {
@@ -252,6 +271,10 @@
                             cardHtml += '</div>';
                         playlistContainer.innerHTML += cardHtml;
                     });
+                    // 페이지네이션 표시
+                    totalPages = result.totalPages;
+                    displayPagination();
+
                 } else {
                     playlistContainer.innerHTML = "<p>플레이리스트를 불러올 수 없습니다.</p>";
                 }
@@ -262,6 +285,21 @@
             }
         });
     }
+
+    // 페이지네이션 표시
+    function displayPagination() {
+        var pagination = document.querySelector('.pagination');
+        pagination.innerHTML = '';
+
+        for (var i = 0; i < totalPages; i++) {
+            var pageItem = '<li class="page-item ' + (i === currentPage ? 'active' : '') + '">';
+            pageItem += '<a class="page-link" href="#" onclick="showPlaylist(' + currentCategory + ', ' + i + ')">' + (i + 1) + '</a>';
+            pageItem += '</li>';
+            pagination.innerHTML += pageItem;
+        }
+    }
+
+    showPlaylist(1);
 </script>
 
 

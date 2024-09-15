@@ -26,6 +26,11 @@ public class PlaylistResultDto {
 
     private Map<Integer, List<CategoryDto>> userCategoryMap;
 
+    // 페이지네이션을 위한 전체 레코드 수
+    private int totalCount;
+
+    // 메인 페이지 - 총 페이지 수
+    private int totalPages;
 
     public String getResult() {
         return result;
@@ -82,6 +87,22 @@ public class PlaylistResultDto {
 
     public void setUserCategoryMap(Map<Integer, List<CategoryDto>> userCategoryMap) {
         this.userCategoryMap = userCategoryMap;
+    }
+
+    public int getTotalPages() {
+        return totalPages;
+    }
+
+    public void setTotalPages(int totalPages) {
+        this.totalPages = totalPages;
+    }
+
+    public int getTotalCount() {
+        return totalCount;
+    }
+
+    public void setTotalCount(int totalCount) {
+        this.totalCount = totalCount;
     }
 
     @Override
