@@ -6,16 +6,9 @@
     // 세션에서 userDto를 가져옴
     UserDto userDto = (UserDto) session.getAttribute("userDto");
 
-    // 로그인 상태 확인
-    if (userDto == null) {
-        // 로그인 페이지로 리다이렉트
-        response.sendRedirect("/pages/login");
-        return;
-    }
-
-    // 사용자 정보가 있을 경우
-    String userName = userDto.getUserName();
-    int userNo = userDto.getUserNo();
+    // 사용자 정보가 있을 경우 유저 이름을 설정
+    String userName = (userDto != null) ? userDto.getUserName() : null;
+    int userNo = (userDto != null) ? userDto.getUserNo() : 0;  // userNo가 필요한 경우 0으로 초기화
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -227,16 +220,15 @@
         currentPage = page;
 
         $.ajax({
-            url: "/pages/" + categoryId,
+            url: "/pages/mainplaylists/" + categoryId,
             method: "GET",
             data: {
                 searchCategory: categoryId,
-                userNo: <%= userNo %>,
                 page: page,
                 size: 15
             },
             success: function (result) {
-                //console.log("AJAX 성공 응답:", result);  // 응답 확인
+                console.log("AJAX 성공 응답:", result);  // 응답 확인
                 var playlistContainer = document.querySelector('.playlist-container');
                 playlistContainer.innerHTML = '';
 
@@ -299,7 +291,7 @@
         }
     }
 
-    showPlaylist(1);
+    //showPlaylist(1);
 </script>
 
 

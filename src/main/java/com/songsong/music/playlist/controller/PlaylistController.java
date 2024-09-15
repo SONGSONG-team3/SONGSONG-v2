@@ -39,10 +39,10 @@ public class PlaylistController {
         this.categoryDao = categoryDao;
     }
 
-     @GetMapping("/{categoryId}")
+    @GetMapping("/mainplaylists/{categoryId}")
     public ResponseEntity<PlaylistResultDto> getPlaylistsByCategory(
             @PathVariable int categoryId,
-            @RequestParam(required = false) int userNo,
+            //@RequestParam(required = false) int userNo,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "15") int size) {
 
@@ -51,17 +51,21 @@ public class PlaylistController {
         // PlaylistParamDto 생성 및 설정
         PlaylistParamDto playlistParamDto = new PlaylistParamDto();
         playlistParamDto.setSearchCategory(categoryId);
-        playlistParamDto.setUserNo(userNo);
+        //playlistParamDto.setUserNo(userNo);
         playlistParamDto.setLimit(size);
         playlistParamDto.setOffset(page * size);
 
         PlaylistResultDto resultDto = playlistService.getPlaylistsByCategory(playlistParamDto);
 
-        // System.out.println("playlistcontroller 플레이리스트 결과: " + resultDto.getList());
-        // System.out.println("playlistcontroller 유저 정보 확인: " + resultDto.getUserMap());
+        System.out.println("playlistcontroller 결과 상태: " + resultDto.getResult());
+        System.out.println("playlistcontroller 리스트 크기: " + resultDto.getList().size());
+
+        System.out.println("playlistcontroller 플레이리스트 결과: " + resultDto.getList());
+        System.out.println("playlistcontroller 유저 정보 확인: " + resultDto.getUserMap());
 
         return ResponseEntity.ok(resultDto);
     }
+
     @GetMapping("/playlist")
     public String getPlaylistsByUser(HttpSession session, Model model) {
         // 세션에서 사용자 정보 가져오기
