@@ -101,4 +101,12 @@
         FROM user
         WHERE user_no = #{userNo}
     </select>
+
+    <select id="selectCategoriesByUserNo">
+        SELECT c.category_id, c.category_name
+        FROM user_category uc
+                 JOIN category c ON uc.category_id = c.category_id
+        WHERE uc.user_no = #{userNo}
+    </select>
+
 </mapper>

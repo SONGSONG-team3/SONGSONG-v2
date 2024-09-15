@@ -1,5 +1,6 @@
 package com.songsong.music.user.dao;
 
+import com.songsong.music.category.dto.CategoryDto;
 import com.songsong.music.user.dto.UserCategoryDto;
 import com.songsong.music.user.dto.UserDto;
 import com.songsong.music.user.dto.UserSignupRequest;
@@ -32,4 +33,6 @@ public interface UserDao {
     int getUserLikeCount(int userNo);
     void incrementUserLike(int userNo);
     void decrementUserLike(int userNo);
+
+    List<CategoryDto> selectCategoriesByUserNo(int userNo);
 }

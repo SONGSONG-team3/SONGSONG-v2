@@ -1,13 +1,14 @@
+<%@ page import="com.songsong.music.user.dto.UserDto" %>
+<%@ page import="java.util.List" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%
-    // 세션에서 로그인된 유저 정보를 확인
-    Integer userNo = (Integer) session.getAttribute("userNo"); // 로그인된 유저 번호
-    // 세션에 값이 없으면 임시로 로그인된 사용자 설정
-    if (userNo == null) {
-        userNo = 1;  // 임시 유저 번호 설정 (예: userNo = 1)
-        session.setAttribute("userNo", userNo);
-    }
+    // 세션에서 userDto를 가져옴
+    UserDto userDto = (UserDto) session.getAttribute("userDto");
+
+    // 사용자 정보가 있을 경우 유저 이름을 설정
+    String userName = (userDto != null) ? userDto.getUserName() : null;
+    int userNo = (userDto != null) ? userDto.getUserNo() : 0;  // userNo가 필요한 경우 0으로 초기화
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -79,6 +80,7 @@
             flex-wrap: wrap;
             justify-content: flex-start;
             gap: 20px;
+            margin-top: 20px;
         }
 
         /* 고정된 카드 크기 설정 */
@@ -97,6 +99,11 @@
             max-width: calc(100% - 100px);
             text-align: center;
 
+        }
+
+        .pagination {
+            justify-content: center;
+            margin-top: 20px;
         }
 
         /* 플레이리스트 스타일 */
@@ -118,10 +125,10 @@
         </a>
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ms-auto">
-                <% if (userNo  != null) { %>
+                <% if (userDto != null) { %>
                 <!-- 로그인된 상태 -->
                 <li class="nav-item">
-                    <span class="nav-link">유저번호: <%= userNo %></span>
+                    <span class="nav-link"><%= userName %>님</span>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/pages/myplaylist">My 플레이리스트</a>
@@ -178,12 +185,21 @@
 </div>
 
 <!-- 플레이리스트 카드 영역 -->
-<div class="container playlist-container">
-</div>
+<div class="container playlist-container"></div>
+
+<!-- 페이지네이션 영역 -->
+<nav>
+    <ul class="pagination"></ul>
+</nav>
 <!-- 부트스트랩 및 jQuery JS CDN -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
+    // 페이지네이션 변수 설정
+    var currentCategory = 1;
+    var currentPage = 0;
+    var totalPages = 0;
+
     // 장르 선택 시 버튼 스타일 변경
     document.querySelectorAll('.genre-btn').forEach(button => {
         button.addEventListener('click', function() {
@@ -192,20 +208,23 @@
         });
     });
 
-    // 카테고리별 플레이리스트 가져오기 (Ajax 요청)
-    function showPlaylist(categoryId) {
-        console.log("Selected categoryId:", categoryId);  // categoryId가 제대로 전달되는지 확인
-        if (!categoryId || categoryId === 'false') {
-            console.error("Invalid categoryId:", categoryId);
-            return;
-        }
+    // 카테고리별 플레이리스트 가져오기
+    function showPlaylist(categoryId, page = 0) {
+        // console.log("Selected categoryId:", categoryId);  // categoryId가 제대로 전달되는지 확인
+        // if (!categoryId || categoryId === 'false') {
+        //     console.error("Invalid categoryId:", categoryId);
+        //     return;
+        // }
+
+        currentCategory = categoryId;
+        currentPage = page;
+
         $.ajax({
-            url: "/pages/" + categoryId,
+            url: "/pages/mainplaylists/" + categoryId,
             method: "GET",
             data: {
                 searchCategory: categoryId,
-                userNo: <%= userNo %>,
-                page: 0,
+                page: page,
                 size: 15
             },
             success: function (result) {
@@ -219,6 +238,11 @@
                         result.list.forEach(function (playlistDto) {
                             var userDto = result.userMap[playlistDto.userNo]; // userMap에서 userNo로 UserDto를 가져옴
                             var songCount = result.songCountMap[playlistDto.userNo];
+                            var userCategories = result.userCategoryMap[playlistDto.userNo]; // userNo에 해당하는 카테고리 목록
+                            console.log(result.userCategoryMap);
+                            console.log("나와야하는거:", result.userCategoryMap[playlistDto.userNo]);
+
+                            var categoriesText = userCategories.map(category => category.categoryName).join(', '); // 카테고리 이름 합치기
 
                             console.log("PlaylistDto:", playlistDto);  // PlaylistDto 확인
                             console.log("UserNo:", playlistDto.userNo);  // userNo 확인
@@ -231,6 +255,7 @@
                             cardHtml += '<div class="card-body">';
                             cardHtml += '<img src="' + (userDto.userImage ? userDto.userImage : '/assets/img/noProfile.png') + '" alt="User Image" />';
                             cardHtml += '<div class="info-text">닉네임: ' + userDto.userNickname + '</div>';
+                            cardHtml += '<div class="info-text">카테고리: ' + categoriesText  + '</div>';
                             cardHtml += '<div class="info-text">곡 수: ' + songCount  + ' 좋아요: ' + userDto.userLike + '</div>';
                             cardHtml += '</div>';
                             cardHtml += '</div>';
@@ -238,6 +263,10 @@
                             cardHtml += '</div>';
                         playlistContainer.innerHTML += cardHtml;
                     });
+                    // 페이지네이션 표시
+                    totalPages = result.totalPages;
+                    displayPagination();
+
                 } else {
                     playlistContainer.innerHTML = "<p>플레이리스트를 불러올 수 없습니다.</p>";
                 }
@@ -248,6 +277,21 @@
             }
         });
     }
+
+    // 페이지네이션 표시
+    function displayPagination() {
+        var pagination = document.querySelector('.pagination');
+        pagination.innerHTML = '';
+
+        for (var i = 0; i < totalPages; i++) {
+            var pageItem = '<li class="page-item ' + (i === currentPage ? 'active' : '') + '">';
+            pageItem += '<a class="page-link" href="#" onclick="showPlaylist(' + currentCategory + ', ' + i + ')">' + (i + 1) + '</a>';
+            pageItem += '</li>';
+            pagination.innerHTML += pageItem;
+        }
+    }
+
+    //showPlaylist(1);
 </script>
 
 
