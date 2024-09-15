@@ -254,9 +254,9 @@
                             cardHtml += '<div class="card">';
                             cardHtml += '<div class="card-body">';
                             cardHtml += '<img src="' + (userDto.userImage ? userDto.userImage : '/assets/img/noProfile.png') + '" alt="User Image" />';
-                            cardHtml += '<div class="info-text">닉네임: ' + userDto.userNickname + '</div>';
-                            cardHtml += '<div class="info-text">카테고리: ' + categoriesText  + '</div>';
-                            cardHtml += '<div class="info-text">곡 수: ' + songCount  + ' 좋아요: ' + userDto.userLike + '</div>';
+                            cardHtml += '<div class="info-text"> 😎 ' + userDto.userNickname + '</div>';
+                            cardHtml += '<div class="info-text"> 💿 ' + categoriesText  + '</div>';
+                            cardHtml += '<div class="info-text"> 🎵 ' + songCount + ' ❤ ' + userDto.userLike + ' </div>';
                             cardHtml += '</div>';
                             cardHtml += '</div>';
                             cardHtml += '</a>';
