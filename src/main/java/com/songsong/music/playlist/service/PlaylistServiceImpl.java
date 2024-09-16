@@ -68,12 +68,17 @@ public class PlaylistServiceImpl implements PlaylistService {
         return resultDto;
     }
   
-  @Override
+    @Override
     public List<PlaylistDto> selectPlaylistsByUser(int userNo) {
         return playlistDao.selectPlaylistsByUser(userNo);
     }
     @Override
     public void deleteMusicFromPlaylist(int userNo, int musicId) {
         playlistDao.deleteMusicFromPlaylist(userNo, musicId);
+    }
+
+    @Override
+    public void addSongToPlaylist(PlaylistDto playlistDto) {
+        playlistDao.addSongToPlaylist(playlistDto.getUserNo(), playlistDto.getMusicId());
     }
 }

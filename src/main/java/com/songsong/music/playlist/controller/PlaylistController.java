@@ -65,8 +65,7 @@ public class PlaylistController {
 
         return ResponseEntity.ok(resultDto);
     }
-
-    @GetMapping("/playlist")
+    @GetMapping("/myplaylist")
     public String getPlaylistsByUser(HttpSession session, Model model) {
         // 세션에서 사용자 정보 가져오기
         UserDto userDto = (UserDto) session.getAttribute("userDto");
@@ -132,5 +131,42 @@ public class PlaylistController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("삭제 실패");
         }
+    }
+
+    @PostMapping("/addSong")
+    public ResponseEntity<Map<String, Object>> addSong(@RequestBody MusicDto musicDto, HttpSession session) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            // 세션에서 userNo 가져오기
+            Integer userNo = (Integer) session.getAttribute("userNo");
+            if (userNo == null) {
+                response.put("success", false);
+                response.put("message", "사용자 정보가 없습니다.");
+                return ResponseEntity.badRequest().body(response);
+            }
+
+            // 1. 음악 추가
+            int musicId = musicService.addSong(musicDto);
+
+            // 2. PlaylistDto 객체 생성
+            PlaylistDto playlistDto = new PlaylistDto();
+            playlistDto.setUserNo(userNo);
+            playlistDto.setMusicId(musicId);
+
+            // 사용자 여부 확인 (예: 세션과 요청 정보를 비교하여 처리)
+            boolean sameUser = true; // 예시: 이 값을 실제 구현 로직에 맞게 설정
+
+            playlistDto.setSameUser(sameUser);
+
+            // 3. 플레이리스트에 음악 추가
+            playlistService.addSongToPlaylist(playlistDto);
+
+            response.put("success", true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.put("success", false);
+            response.put("message", "오류가 발생했습니다.");
+        }
+        return ResponseEntity.ok(response);
     }
 }

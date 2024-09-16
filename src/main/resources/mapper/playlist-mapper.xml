@@ -38,4 +38,9 @@
     <delete id="deleteMusicFromPlaylist">
         DELETE FROM playlist WHERE user_no = #{userNo} AND music_id = #{musicId}
     </delete>
+
+    <insert id="addSongToPlaylist">
+        INSERT INTO playlist (user_no, music_id)
+        VALUES (#{userNo}, #{musicId});
+    </insert>
 </mapper>

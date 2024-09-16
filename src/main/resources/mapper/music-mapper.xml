@@ -20,4 +20,9 @@
         </foreach>
     </select>
 
+    <!--음악 추가-->
+    <insert id="addSong" parameterType="com.songsong.music.music.dto.MusicDto" useGeneratedKeys="true" keyProperty="musicId">
+        INSERT INTO music (category_id, music_name, music_artist, music_link)
+        VALUES (1, #{musicName}, #{musicArtist}, #{musicLink});
+    </insert>
 </mapper>
