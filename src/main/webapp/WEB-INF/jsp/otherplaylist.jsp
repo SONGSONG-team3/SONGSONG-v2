@@ -1,43 +1,42 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
+<%@ page import="com.songsong.music.user.dto.UserDto" %>
+<%@ page import="com.songsong.music.playlist.dto.PlaylistDto" %>
+<%@ page import="com.songsong.music.music.dto.MusicDto" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Map" %>
 <%
-    // 세션에서 로그인된 유저 정보를 확인
-    String userName = (String) session.getAttribute("userName"); // 로그인된 유저 이름
+    // 세션에서 userDto를 가져옴
+    UserDto userDto = (UserDto) session.getAttribute("userDto");
+
+    // 사용자 정보가 있을 경우 유저 이름을 설정
+    String userName = (userDto != null) ? userDto.getUserName() : null;
+    int userNo = (userDto != null) ? userDto.getUserNo() : 0;  // userNo가 필요한 경우 0으로 초기화
 %>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>다른 사용자 피드</title>
+    <title>${otherUserName} 피드</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!--바디 부분-->
     <style>
         body {
             margin: 0;
             font-family: Arial, sans-serif;
         }
-    </style>
 
-    <!--nav바-->
-    <style>
         .navbar {
             margin-bottom: 20px;
             background-color: #43486E;
         }
+
         .navbar-nav .nav-link {
             color: #fff !important;
         }
+
         .navbar-brand img {
             height: 40px;
         }
-    </style>
 
-    <!--프로필 css-->
-    <style>
-        /*프로필 css*/
         .profile-container {
             display: flex;
             padding: 30px 0px 20px 50px;
@@ -46,8 +45,8 @@
         .profile-info {
             display: flex;
             align-items: center;
-            flex: 1; /* 프로필 정보가 공간을 차지하도록 설정 */
-            background-color: #fff; /* 배경색 (선택 사항) */
+            flex: 1;
+            background-color: #fff;
         }
 
         .profile-icon {
@@ -59,7 +58,7 @@
 
         .profile-details {
             margin-left: 30px;
-            flex: 1; /* 프로필 세부 정보가 공간을 차지하도록 설정 */
+            flex: 1;
         }
 
         .profile-details h2 {
@@ -72,7 +71,7 @@
         }
 
         .like-button-container {
-            margin-left: auto; /* 버튼 컨테이너를 오른쪽으로 정렬 */
+            margin-left: auto;
         }
 
         .like-button {
@@ -89,24 +88,18 @@
         .like-button:hover {
             background-color: #007bff;
         }
-    </style>
 
-    <style>
-        .main-container{
+        .main-container {
             width: 80%;
             margin-left: 10%;
             margin-top: 80px;
         }
-    </style>
 
-    <!--플레이리스트 테이블-->
-    <style>
-        /* 플레이리스트 테이블 스타일 */
         .playlist-table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
-            table-layout: fixed; /* 열 너비 고정 */
+            table-layout: fixed;
             border: none;
         }
 
@@ -120,13 +113,12 @@
         .playlist-table th {
             background-color: #f4f4f4;
             font-weight: bold;
-            border-top: 2px solid #ddd; /* 위 테두리 */
-            border-bottom: 2px solid #ddd; /* 아래 테두리 */
-            border-left: none; /* 좌 테두리 제거 */
-            border-right: none; /* 우 테두리 제거 */
+            border-top: 2px solid #ddd;
+            border-bottom: 2px solid #ddd;
+            border-left: none;
+            border-right: none;
         }
 
-        /* 열 너비 설정 */
         .playlist-table th:nth-child(1),
         .playlist-table td:nth-child(1) {
             width: 30%;
@@ -150,6 +142,7 @@
             color: #007bff;
             text-decoration: none;
         }
+
         .action-button {
             background-color: #43486E;
             color: white;
@@ -165,9 +158,7 @@
             background-color: #c82333;
         }
     </style>
-
 </head>
-
 <body>
 <!--nav바-->
 <nav class="navbar navbar-expand-lg navbar-light fixed-top">
@@ -178,7 +169,7 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <span class="nav-link"><%= userName %>님</span>
+                    <span class="nav-link"><%= userDto.getUserName() %>님</span>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/pages/myplaylist">My 플레이리스트</a>
@@ -194,69 +185,119 @@
     </div>
 </nav>
 
-    <div class="main-container">
-        <!--프로필-->
-        <div class="profile-container">
-            <div class="profile-info">
-                <img src="assets/img/noProfile.png" class="profile-icon">
-                <div class="profile-details">
-                    <h2>이름</h2>
-                    <p>곡 수:</p>
-                    <p>좋아요 수:</p>
-                    <p>카테고리:</p>
-                </div>
-                <div class="like-button-container"> <!-- 좋아요 버튼을 감싸는 컨테이너 추가 -->
-                    <button class="like-button" id="likeButton">좋아요</button>
-                </div>
+<div class="main-container">
+    <!--프로필-->
+    <div class="profile-container">
+        <div class="profile-info">
+            <img src="/assets/img/goomba.jpg" class="profile-icon" alt="Profile Image">
+            <div class="profile-details">
+                <h2><span>${otherUserName}</span></h2>
+                <p>🎵<span>${songCount}</span> ❤️<span id="likeCount">${likeCount}</span></p>
+                <p><span>${categories}</span></p>
+            </div>
+            <div class="like-button-container">
+                <button id="likeButton" class="like-button" data-user-to="${userDto.userNo}" data-status="${isLiked ? 1 : 0}">
+                    ${isLiked ? "좋아요 취소" : "좋아요"}
+                </button>
             </div>
         </div>
-
-        <hr>
-
-        <!--플레이리스트-->
-        <table class="playlist-table">
-            <thead>
-            <tr>
-                <th>곡 제목</th>
-                <th>가수</th>
-                <th>링크</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>곡 제목 1</td>
-                <td>가수 1</td>
-                <td><a href="링크1" target="_blank">링크</a></td>
-                <td><button class="action-button">추가</button></td>
-            </tr>
-            <tr>
-                <td>곡 제목 2</td>
-                <td>가수 2</td>
-                <td><a href="링크2" target="_blank">링크</a></td>
-                <td><button class="action-button">추가</button></td>
-            </tr>
-            <!-- 추가 곡들 -->
-            </tbody>
-
-        </table>
-
-
-
     </div>
-</body>
 
-<!-- JavaScript -->
+    <hr>
+
+    <!--플레이리스트-->
+    <table class="playlist-table">
+        <thead>
+        <tr>
+            <th>곡 제목</th>
+            <th>가수</th>
+            <th>링크</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <% for (PlaylistDto playlist : (List<PlaylistDto>)request.getAttribute("playlists")) { %>
+        <% MusicDto music = (MusicDto) ((Map<Integer, MusicDto>)request.getAttribute("musicInfo")).get(playlist.getMusicId()); %>
+        <tr>
+            <td><%= music != null ? music.getMusicName() : "Unknown" %></td>
+            <td><%= music != null ? music.getMusicArtist() : "Unknown" %></td>
+            <td><a href="<%= music != null ? music.getMusicLink() : "#" %>" target="_blank">링크</a></td>
+            <td><button class="action-button add-button" data-music-id="<%= playlist.getMusicId() %>">추가</button></td>
+        </tr>
+        <% } %>
+        </tbody>
+    </table>
+</div>
+<!-- 상대 음악 추가 -->
 <script>
-    document.getElementById('likeButton').addEventListener('click', function() {
-        var button = this;
-        if (button.classList.contains('liked')) {
-            button.textContent = '좋아요';
-            button.classList.remove('liked');
-        } else {
-            button.textContent = '좋아요 취소';
-            button.classList.add('liked');
-        }
+    document.addEventListener('DOMContentLoaded', function() {
+        const addButtons = document.querySelectorAll('.add-button');
+
+        addButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const musicId = this.getAttribute('data-music-id');
+                const userNo = <%= userNo %>;
+
+                // 서버로 POST 요청을 보낼 데이터 객체 생성
+                const data = {
+                    userNo: userNo,
+                    musicId: musicId
+                };
+
+                fetch('/pages/addToPlaylist', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.success) {
+                            alert('음악이 플레이리스트에 추가되었습니다.');
+                        } else {
+                            alert('해당 음악은 이미 플레이리스트에 있습니다.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('서버와의 통신 중 문제가 발생했습니다.');
+                    });
+            });
+        });
     });
 </script>
+
+
+<!-- 좋아요 버튼 -->
+<script>
+    document.querySelector('#likeButton').addEventListener('click', function () {
+        const userTo = this.getAttribute('data-user-to');
+        const userFrom = <%= userNo %>;
+        const currentStatus = parseInt(this.getAttribute('data-status'), 10);
+        const newStatus = currentStatus === 1 ? 0 : 1;
+
+        fetch('/pages/like', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ userFrom: userFrom, userTo: userTo, status: newStatus })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    this.setAttribute('data-status', newStatus);
+                    this.textContent = newStatus === 1 ? '좋아요 취소' : '좋아요';
+
+                    // 좋아요 수 업데이트
+                    document.querySelector('#likeCount').textContent = data.likeCount;
+                } else {
+                    alert('문제가 발생했습니다.');
+                }
+            })
+            .catch(error => console.error('오류 발생:', error));
+    });
+</script>
+</body>
 </html>

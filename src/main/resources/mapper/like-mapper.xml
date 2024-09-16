@@ -4,5 +4,28 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.songsong.music.like.dao.LikeDao">
 
+    <select id="isLiked" resultType="boolean">
+        SELECT COUNT(*)
+        FROM `like`
+        WHERE user_from = #{userFrom} AND user_to = #{userTo} AND status = 1
+    </select>
 
+    <!--좋아요 기능-->
+    <update id="updateLikeStatus">
+        <choose>
+            <!-- 상태가 1일 때, 즉 좋아요를 추가할 때 -->
+            <when test="status == 1">
+                <!-- 기존에 같은 (user_from, user_to) 조합이 있으면 상태를 1로 업데이트, 없으면 추가 -->
+                INSERT INTO `like` (user_from, user_to, status)
+                VALUES (#{userFrom}, #{userTo}, #{status})
+                ON DUPLICATE KEY UPDATE status = VALUES(status);
+            </when>
+            <!-- 상태가 0일 때, 즉 좋아요를 취소할 때 -->
+            <otherwise>
+                <!-- 기존에 같은 (user_from, user_to) 조합이 있으면 해당 레코드를 삭제 -->
+                DELETE FROM `like`
+                WHERE user_from = #{userFrom} AND user_to = #{userTo};
+            </otherwise>
+        </choose>
+    </update>
 </mapper>

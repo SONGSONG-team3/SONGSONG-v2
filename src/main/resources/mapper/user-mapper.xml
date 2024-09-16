@@ -109,4 +109,16 @@
         WHERE uc.user_no = #{userNo}
     </select>
 
+    <update id="updateUserLikeCount">
+        UPDATE `user`
+        SET user_like = user_like + #{increment}
+        WHERE user_no = #{userNo}
+    </update>
+
+    <select id="getCategoriesByUserNo" resultType="string">
+        SELECT c.category_name
+        FROM user_category uc
+                 JOIN category c ON uc.category_id = c.category_id
+        WHERE uc.user_no = #{userNo}
+    </select>
 </mapper>

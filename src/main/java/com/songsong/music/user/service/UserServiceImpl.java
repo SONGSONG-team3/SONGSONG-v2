@@ -147,12 +147,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void incrementUserLike(int userNo) {
-        userDao.incrementUserLike(userNo);
+    public List<String> getCategoriesByUserNo(int userNo) {
+        return userDao.getCategoriesByUserNo(userNo);
     }
 
-    @Override
-    public void decrementUserLike(int userNo) {
-        userDao.decrementUserLike(userNo);
-    }
 }

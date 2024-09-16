@@ -1,10 +1,13 @@
 <%@ page import="com.songsong.music.music.dto.MusicDto" %>
-<% UserDto userDto = (UserDto) session.getAttribute("userDto"); %>
 <%@ page import="java.util.Map" %>
 <%@ page import="com.songsong.music.user.dto.UserDto" %>
 <%
-    // 세션에서 로그인된 유저 정보를 확인
-    String userName = (String) session.getAttribute("userName"); // 로그인된 유저 이름
+    // 세션에서 userDto를 가져옴
+    UserDto userDto = (UserDto) session.getAttribute("userDto");
+
+    // 사용자 정보가 있을 경우 유저 이름을 설정
+    String userName = (userDto != null) ? userDto.getUserName() : null;
+    int userNo = (userDto != null) ? userDto.getUserNo() : 0;  // userNo가 필요한 경우 0으로 초기화
 %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -255,7 +258,7 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <span class="nav-link">${userName}님</span>
+                    <span class="nav-link"><%= userName %>님</span>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/pages/mypage">마이페이지</a>
@@ -274,9 +277,9 @@
         <div class="profile-info">
             <img src="/assets/img/goomba.jpg" class="profile-icon" alt="Profile Image">
             <div class="profile-details">
-                <h2>${userDto.userNickname}</h2>
-                <p>곡 수: <span>${songCount}</span></p>
-                <p>좋아요 수: <span>${likeCount}</span></p>
+                <h2><span>${nickName}</span></h2>
+                <p>🎵<span>${songCount}</span> ❤️<span>${likeCount}</span></p>
+                <p><span>${categories}</span></p>
             </div>
         </div>
     </div>

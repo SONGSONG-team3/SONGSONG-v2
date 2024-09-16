@@ -6,6 +6,7 @@ import com.songsong.music.user.dto.UserDto;
 import com.songsong.music.user.dto.UserSignupRequest;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -31,8 +32,9 @@ public interface UserDao {
     UserDto selectUserById(int userNo);
     int getSongCountByUser(int userNo);
     int getUserLikeCount(int userNo);
-    void incrementUserLike(int userNo);
-    void decrementUserLike(int userNo);
+    void updateUserLikeCount(@Param("userNo") int userNo, @Param("increment") int increment);
+    List<String> getCategoriesByUserNo(int userNo);
+
 
     List<CategoryDto> selectCategoriesByUserNo(int userNo);
 }
