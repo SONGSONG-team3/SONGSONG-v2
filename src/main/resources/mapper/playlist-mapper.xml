@@ -6,10 +6,9 @@
 <mapper namespace="com.songsong.music.playlist.dao.PlaylistDao">
 
     <select id="selectPlaylistsByCategory">
-        SELECT p.user_no, p.music_id
-        FROM playlist p
-                 JOIN music m ON p.music_id = m.music_id
-        WHERE m.category_id = #{searchCategory}
+        SELECT uc.user_no
+        FROM user_category uc
+        WHERE uc.category_id = #{searchCategory}
         LIMIT #{offset}, #{limit}
     </select>
 
