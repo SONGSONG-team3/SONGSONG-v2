@@ -250,7 +250,7 @@
                             console.log("UserDto:", userDto);  // userDto 확인
 
                             var cardHtml = '<div class="card-container">';
-                            cardHtml += '<a href="/playlist/detail/' + playlistDto.playlistId + '">';
+                            cardHtml += '<a href="/pages/detail/' + playlistDto.userNo + '">';
                             cardHtml += '<div class="card">';
                             cardHtml += '<div class="card-body">';
                             cardHtml += '<img src="' + (userDto.userImage ? userDto.userImage : '/assets/img/noProfile.png') + '" alt="User Image" />';
