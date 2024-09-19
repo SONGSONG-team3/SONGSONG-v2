@@ -5,8 +5,8 @@
 
 <mapper namespace="com.songsong.music.user.dao.UserDao">
     <insert id="registerUser" parameterType="com.songsong.music.user.dto.UserDto" useGeneratedKeys="true" keyProperty="userNo">
-        INSERT INTO user (user_name, user_password, user_email, user_nickname, user_image, user_register_date)
-        VALUES (#{userName}, #{userPassword}, #{userEmail}, #{userNickname}, #{userImage}, now())
+        INSERT INTO user (user_name, user_password, user_email, user_nickname, user_image, user_register_date, user_like)
+        VALUES (#{userName}, #{userPassword}, #{userEmail}, #{userNickname}, #{userImage}, now(), 0)
     </insert>
 
     <insert id="insertUserCategories" parameterType="com.songsong.music.user.dto.UserSignupRequest">
