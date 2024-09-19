@@ -142,8 +142,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int getUserLikeCount(int userNo) {
-        return userDao.getUserLikeCount(userNo);
+    public Integer getUserLikeCount(int userNo) {
+        Integer likeCount = userDao.getUserLikeCount(userNo);
+        return (likeCount != null) ? likeCount : 0;
     }
 
     @Override

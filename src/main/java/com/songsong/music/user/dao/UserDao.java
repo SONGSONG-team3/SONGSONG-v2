@@ -31,7 +31,7 @@ public interface UserDao {
 
     UserDto selectUserById(int userNo);
     int getSongCountByUser(int userNo);
-    int getUserLikeCount(int userNo);
+    Integer getUserLikeCount(int userNo);
     void updateUserLikeCount(@Param("userNo") int userNo, @Param("increment") int increment);
     List<String> getCategoriesByUserNo(int userNo);
 

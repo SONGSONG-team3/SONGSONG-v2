@@ -16,7 +16,7 @@ public interface UserService {
 
     UserDto selectUserById(int userNo);
     int getSongCountByUser(int userNo);
-    int getUserLikeCount(int userNo);
+    Integer getUserLikeCount(int userNo);
     List<String> getCategoriesByUserNo(int userNo);
 
 }
