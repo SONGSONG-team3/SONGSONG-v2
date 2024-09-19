@@ -18,5 +18,6 @@ public interface UserService {
     int getSongCountByUser(int userNo);
     Integer getUserLikeCount(int userNo);
     List<String> getCategoriesByUserNo(int userNo);
+    String selectUserNicknameByUserNo(int userNo);
 
 }

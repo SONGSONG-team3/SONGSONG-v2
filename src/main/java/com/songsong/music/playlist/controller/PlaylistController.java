@@ -83,8 +83,7 @@ public class PlaylistController {
         String categoriesString = String.join(" ", categories);
         model.addAttribute("categories", categoriesString);
 
-        // TODO: 세션에서 받아오는 UserDto에 닉네임이 null로 넘어옴
-        String nickName = userDto.getUserName();
+        String nickName = userService.selectUserNicknameByUserNo(userNo);
         model.addAttribute("nickName", nickName);
 
         // 사용자 정보 추가

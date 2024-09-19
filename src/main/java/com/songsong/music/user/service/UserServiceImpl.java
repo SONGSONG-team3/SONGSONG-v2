@@ -152,4 +152,9 @@ public class UserServiceImpl implements UserService {
         return userDao.getCategoriesByUserNo(userNo);
     }
 
+    @Override
+    public String selectUserNicknameByUserNo(int userNo) {
+        return userDao.selectUserNicknameByUserNo(userNo);
+    }
+
 }

@@ -34,6 +34,7 @@ public interface UserDao {
     Integer getUserLikeCount(int userNo);
     void updateUserLikeCount(@Param("userNo") int userNo, @Param("increment") int increment);
     List<String> getCategoriesByUserNo(int userNo);
+    String selectUserNicknameByUserNo(int userNo);
 
 
     List<CategoryDto> selectCategoriesByUserNo(int userNo);
