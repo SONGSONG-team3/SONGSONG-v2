@@ -213,6 +213,8 @@ public class PlaylistController {
         // 해당 유저의 플레이리스트 가져오기
         List<PlaylistDto> playlists = playlistService.selectPlaylistsByUser(userId);
 
+        String otherUserName = userDto.getUserNickname();
+
         if (playlists.isEmpty()) {
             // 플레이리스트가 비어 있는 경우 처리
             model.addAttribute("playlists", playlists);
@@ -220,6 +222,7 @@ public class PlaylistController {
             model.addAttribute("songCount", 0);
             model.addAttribute("likeCount", userService.getUserLikeCount(userId));
             model.addAttribute("isLiked", false); // 좋아요 상태 초기화
+            model.addAttribute("otherUserName", otherUserName);
             return "otherplaylist"; // 빈 상태로 반환
         }
 
@@ -239,8 +242,6 @@ public class PlaylistController {
         // 모델에 결과 추가
         model.addAttribute("playlists", playlists);
         model.addAttribute("musicInfo", musicMap);
-
-        String otherUserName = userDto.getUserNickname();
         model.addAttribute("otherUserName", otherUserName);
 
         // 곡 수와 좋아요 수 가져오기
