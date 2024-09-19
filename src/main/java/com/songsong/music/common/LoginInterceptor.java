@@ -29,7 +29,8 @@ public class LoginInterceptor implements HandlerInterceptor {
 
             } else {
                 System.out.println("LoginInterceptor >>> page");
-                response.sendRedirect("/pages/login");
+                response.sendRedirect("/");
+//                response.sendRedirect("/pages/login");
             }
             return false;
         }
