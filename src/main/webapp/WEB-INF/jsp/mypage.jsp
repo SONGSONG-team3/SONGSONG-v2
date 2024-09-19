@@ -36,7 +36,7 @@
                         <a class="nav-link" href="/pages/myplaylist">My 플레이리스트</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/logout">로그아웃</a>
+                        <a class="nav-link" href="/auth/logout">로그아웃</a>
                     </li>
                 </ul>
             </div>

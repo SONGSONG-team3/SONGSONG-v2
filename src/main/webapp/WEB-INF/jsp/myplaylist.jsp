@@ -264,7 +264,7 @@
                     <a class="nav-link" href="/pages/mypage">마이페이지</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/logout">로그아웃</a>
+                    <a class="nav-link" href="/auth/logout">로그아웃</a>
                 </li>
             </ul>
         </div>
