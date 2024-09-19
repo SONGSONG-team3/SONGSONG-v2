@@ -10,6 +10,7 @@
     String userName = (userDto != null) ? userDto.getUserName() : null;
     int userNo = (userDto != null) ? userDto.getUserNo() : 0;  // userNo가 필요한 경우 0으로 초기화
 %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -117,6 +118,11 @@
     </style>
 </head>
 <body>
+
+<script>
+    var userNo = <%= userNo %>;  // JSP에서 자바스크립트로 userNo 값 전달
+</script>
+
 <!-- 헤더 -->
 <nav class="navbar navbar-expand-lg navbar-light fixed-top">
     <div class="container-fluid">
@@ -239,15 +245,18 @@
                             var userDto = result.userMap[playlistDto.userNo]; // userMap에서 userNo로 UserDto를 가져옴
                             var songCount = result.songCountMap[playlistDto.userNo];
                             var userCategories = result.userCategoryMap[playlistDto.userNo]; // userNo에 해당하는 카테고리 목록
-                            console.log(result.userCategoryMap);
-                            console.log("나와야하는거:", result.userCategoryMap[playlistDto.userNo]);
-
                             var categoriesText = userCategories.map(category => category.categoryName).join(', '); // 카테고리 이름 합치기
 
                             console.log("PlaylistDto:", playlistDto);  // PlaylistDto 확인
                             console.log("UserNo:", playlistDto.userNo);  // userNo 확인
                             console.log("UserMap:", result.userMap);  // userMap 확인
                             console.log("UserDto:", userDto);  // userDto 확인
+                            console.log(result.userCategoryMap);
+                            console.log("나와야하는거:", result.userCategoryMap[playlistDto.userNo]);
+                            console.log("로그인한 userNo", userNo);
+
+                            if(playlistDto.userNo == userNo)
+                                return;
 
                             var cardHtml = '<div class="card-container">';
                             cardHtml += '<a href="/pages/detail/' + playlistDto.userNo + '">';
