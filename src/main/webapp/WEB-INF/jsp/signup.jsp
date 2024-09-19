@@ -261,7 +261,7 @@
             }),
         }
 
-        let response = await fetch("/signup", fetchOptions);
+        let response = await fetch("/pages/signup", fetchOptions);
         console.log(response);
 
         let data = await response.json();

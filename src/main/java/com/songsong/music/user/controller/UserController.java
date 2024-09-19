@@ -6,14 +6,12 @@ import com.songsong.music.user.dto.UserSignupRequest;
 import com.songsong.music.user.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Controller
+@RequestMapping("/pages")
 public class UserController {
 
     private final UserService userService;
@@ -22,7 +20,7 @@ public class UserController {
     }
 
     // 마이페이지
-    @GetMapping("/pages/mypage/detail")
+    @GetMapping("/mypage/detail")
     @ResponseBody
     private UserResultDto detailBoard(HttpSession session) {
 
@@ -32,7 +30,7 @@ public class UserController {
         return userService.detailMypage(userNo);
     }
 
-    @PostMapping("/pages/mypage/user-update")
+    @PostMapping("/mypage/user-update")
     @ResponseBody
     public UserResultDto updateUserMypage(@RequestBody UserDto userDto, HttpSession session) {
 
@@ -47,7 +45,7 @@ public class UserController {
         return userService.updateUserMypage(userDto);
     }
 
-    @PostMapping("/pages/mypage/categories-update")
+    @PostMapping("/mypage/categories-update")
     @ResponseBody
     public UserResultDto updateUserCategory(@RequestBody List<Integer> categoryIds, HttpSession session) {
 
