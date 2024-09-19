@@ -87,20 +87,20 @@
 
             <form novalidate class="w-100 d-flex flex-column align-items-center">
                 <div class="mb-3">
-                    <input type="text" class="form-control" id="userName" placeholder="name" name="userName" value="fbgjung">
+                    <input type="text" class="form-control" id="userName" placeholder="name" name="userName">
                 </div>
                 <div class="mb-3">
-                    <input type="text" class="form-control" id="userEmail" placeholder="email" name="userEmail" value="fbgjung@gmail.com">
+                    <input type="text" class="form-control" id="userEmail" placeholder="email" name="userEmail">
                 </div>
                 <div class="mb-3">
-                    <input type="password" class="form-control" id="userPassword" placeholder="password" name="userPassword" value="rmawjd123!">
+                    <input type="password" class="form-control" id="userPassword" placeholder="password" name="userPassword">
                     <p id="valid">🎶 1개 이상의 특수문자, 대소문자 및 숫자 포함 8자리 이상</p>
                 </div>
                 <div class="mb-3">
-                    <input type="password" class="form-control" id="userPassword2" placeholder="confirm password" name="userPassword" value="rmawjd123!">
+                    <input type="password" class="form-control" id="userPassword2" placeholder="confirm password" name="userPassword">
                 </div>
                 <div class="mb-3">
-                    <input type="text" class="form-control" id="userNickname" placeholder="nickname" name="userNickname" value="hi!">
+                    <input type="text" class="form-control" id="userNickname" placeholder="nickname" name="userNickname">
                 </div>
 
                 <div class="mb-1 mt-3">
