@@ -257,6 +257,8 @@
 
                             if(playlistDto.userNo == userNo)
                                 return;
+                            if(songCount == 0)
+                                return;
 
                             var cardHtml = '<div class="card-container">';
                             cardHtml += '<a href="/pages/detail/' + playlistDto.userNo + '">';
